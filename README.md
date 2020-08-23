@@ -7,9 +7,9 @@ This repository is a playground for working on various game design concepts clie
 ## Technology
 
 - Vue SPA Template from CLI
-- (Element Components)[https://element.eleme.io/#/en-US/component/installation]
-- (Tailwind CSS)[https://tailwindcss.com/]
-- (Tailwind UI)[https://tailwindui.com/]
+- [Element Components](https://element.eleme.io/#/en-US/component/installation)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Tailwind UI](https://tailwindui.com/)
 
 
 ## Combat Simulator
