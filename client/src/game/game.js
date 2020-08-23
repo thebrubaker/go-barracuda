@@ -65,12 +65,16 @@ function createGameState() {
 export function nextTick() {
   // Set up next in initiative, and pull out an attacker and defender
   nextInitiative((attacker, defender) => {
+    if (!defender) {
+      attacker.exhaustion = Math.max(0, attacker.exhaustion - 2)
+      return
+    }
     // Determine if attacker can attack
     if (
       !attacker.bodyParts.includes(RIGHT_ARM) &&
       !attacker.bodyParts.includes(LEFT_ARM)
     ) {
-      attacker.exhaustion -= 2
+      attacker.exhaustion = Math.max(0, attacker.exhaustion - 2)
       return
     }
     // Attack
@@ -78,7 +82,7 @@ export function nextTick() {
     let attackCost = getExhaustionCost(attackType)
     if (attacker.exhaustion + attackCost > 10) {
       // Too Tired, Must Rest
-      attacker.exhaustion -= 2
+      attacker.exhaustion = Math.max(0, attacker.exhaustion - 2)
       return
     }
     attacker.exhaustion += attackCost
@@ -176,6 +180,10 @@ function nextInitiative(callback) {
   // move unit to back of initiative
   initiativeOrder.push(initiativeOrder[0])
   initiativeOrder.shift()
+  // Remove anyone who died
+  gameState.initiativeOrder = initiativeOrder.filter(key => {
+    return gameState.units[key].alive
+  })
   gameState.step++
 }
 
@@ -260,6 +268,9 @@ function determineTarget(unit, targets) {
   }
   if (unit.team === 2) {
     targets = targets.filter(target => target.team === 1 && target.alive)
+  }
+  if (!targets.length) {
+    return null
   }
   return targets[getRandomInt(targets.length - 1)].key
 }

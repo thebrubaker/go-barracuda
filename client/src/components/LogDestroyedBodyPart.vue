@@ -1,12 +1,12 @@
 <template>
-  <div>
-    <span class="token punctuation">[{{ turn }}] </span>
-    <span class="token entity">INFO </span>
-    <span class="token punctuation">The </span>
-    <span class="token constant">{{ bodyPart }} </span>
-    <span class="token punctuation">of </span>
-    <span class="token function">{{ defender.name }} </span>
-    <span class="token punctuation">{{ getType() }}.</span>
+  <div class="text-white">
+    <span class="text-gray-400">[{{ turn }}] </span>
+    <span class="text-indigo-300">INFO </span>
+    <span class="">The </span>
+    <span class="text-blue-300">{{ bodyPart }} </span>
+    <span class="">of </span>
+    <span class="text-yellow-100">{{ defender.name }} </span>
+    <span class="">{{ getType() }}.</span>
   </div>
 </template>
 

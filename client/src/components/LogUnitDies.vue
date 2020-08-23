@@ -1,10 +1,10 @@
 <template>
   <div>
-    <span class="token punctuation">[{{ turn }}] </span>
-    <span class="token variable">DEATH </span>
-    <span class="token function">{{ defender.name }} </span>
-    <span class="token punctuation">died at the hands of </span>
-    <span class="token function">{{ attacker.name }}.</span>
+    <span class="text-gray-400">[{{ turn }}] </span>
+    <span class="text-red-400">DEATH </span>
+    <span class="text-yellow-100">{{ defender.name }} </span>
+    <span class="">died at the hands of </span>
+    <span class="text-yellow-100">{{ attacker.name }}.</span>
   </div>
 </template>
 

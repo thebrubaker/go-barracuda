@@ -121,7 +121,7 @@ export default {
         }
       }
       return {
-        'text-blue-800': true,
+        'text-green-500': true,
       }
     },
     filledExhaustion() {

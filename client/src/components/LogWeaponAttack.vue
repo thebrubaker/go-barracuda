@@ -1,16 +1,16 @@
 <template>
-  <div>
-    <span class="token punctuation">[{{ turn }}] </span>
-    <span class="token entity">ATTACK </span>
-    <span class="token function">{{ attacker.name }} </span>
-    <span class="token punctuation">{{ getHitType() }} </span>
-    <span class="token function">{{ defender.name }} </span>
-    <span class="token punctuation">with a </span>
-    <span class="token inserted">{{ attacker.equipment.weapon.name }} </span>
-    <span class="token punctuation">and </span>
-    <span class="token variable">Hit </span>
-    <span class="token punctuation">their </span>
-    <span class="token constant">{{ bodyPart }}.</span>
+  <div class="text-white">
+    <span class="text-gray-400">[{{ turn }}] </span>
+    <span class="text-orange-300">COMBAT </span>
+    <span class="text-yellow-100">{{ attacker.name }} </span>
+    <span class="">{{ getHitType() }} </span>
+    <span class="text-yellow-100">{{ defender.name }} </span>
+    <span class="">with a </span>
+    <span class="text-orange-200">{{ attacker.equipment.weapon.name }} </span>
+    <span class="">and </span>
+    <span class="text-red-500">Hit </span>
+    <span class="">their </span>
+    <span class="text-blue-300">{{ bodyPart }}.</span>
   </div>
 </template>
 
