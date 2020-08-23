@@ -10,9 +10,8 @@
         <el-button
           @click="nextTick"
           class="order-0 sm:order-1 sm:ml-3 shadow-sm rounded-md"
+          >Next Tick</el-button
         >
-          Next Tick
-        </el-button>
       </div>
     </PageHeader>
     <el-row style="height: 45%">
@@ -69,7 +68,7 @@
                 fill-rule="evenodd"
                 d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
                 clip-rule="evenodd"
-              ></path>
+              />
             </svg>
           </div>
           <LogWeaponAttack
@@ -84,6 +83,10 @@
             v-if="log.type === 'DefendAttack'"
             v-bind="log"
           ></LogDefendAttack>
+          <LogUnitDies
+            v-if="log.type === 'UnitDies'"
+            v-bind="log"
+          ></LogUnitDies>
         </LogLine>
       </el-col>
     </el-row>
@@ -100,6 +103,7 @@ import LogLine from '../components/LogLine'
 import LogWeaponAttack from '../components/LogWeaponAttack'
 import LogDestroyedBodyPart from '../components/LogDestroyedBodyPart'
 import LogDefendAttack from '../components/LogDefendAttack'
+import LogUnitDies from '../components/LogUnitDies'
 import { gameState, nextTick } from '../game/game'
 
 export default {
@@ -113,6 +117,7 @@ export default {
     LogWeaponAttack,
     LogDestroyedBodyPart,
     LogDefendAttack,
+    LogUnitDies,
   },
   data() {
     return {

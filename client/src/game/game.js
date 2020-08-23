@@ -132,6 +132,10 @@ export function nextTick() {
 
     if ([HEAD, BODY].includes(bodyPart)) {
       defender.alive = false
+      createUnitDiesLog({
+        attacker,
+        defender,
+      })
     }
   })
 }
@@ -148,7 +152,11 @@ function getDefenseType({ bodyParts, equipment }) {
   if (bodyParts.includes(RIGHT_ARM) || bodyParts.includes(LEFT_ARM)) {
     defenseTypes.push(PARRY)
   }
-  if (bodyParts.includes(RIGHT_ARM) && bodyParts.includes(LEFT_ARM) && equipment.shield) {
+  if (
+    bodyParts.includes(RIGHT_ARM) &&
+    bodyParts.includes(LEFT_ARM) &&
+    equipment.shield
+  ) {
     defenseTypes.push(BLOCK)
     defenseTypes.push(BLOCK)
     defenseTypes.push(BLOCK)
@@ -184,6 +192,15 @@ function createDefendAttackLog({
     defender,
     attackType,
     defenseType,
+  })
+}
+
+function createUnitDiesLog({ attacker, defender }) {
+  gameState.logs.push({
+    turn: gameState.turn + '.' + gameState.step,
+    type: 'UnitDies',
+    attacker,
+    defender,
   })
 }
 
