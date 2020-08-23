@@ -17,6 +17,7 @@ import {
   canDefendAttack,
   defendAttack,
   getExhaustionCost,
+  getBodyPartToHit,
 } from './combat'
 
 export const gameState = createGameState()
@@ -72,26 +73,25 @@ export function nextTick() {
       attacker.exhaustion -= 2
       return
     }
-    // Select Attack
-    const weaponType = attacker.equipment.weapon.type
-    const attackType = getRandomItem(weaponType.attackTypes)
-    const defenseType = defender.equipment.shield
-      ? BLOCK
-      : getRandomItem([DODGE, PARRY])
-
-    // Perform Attack
+    // Attack
+    const attackType = getAttackType(attacker)
     let attackCost = getExhaustionCost(attackType)
     if (attacker.exhaustion + attackCost > 10) {
+      // Too Tired, Must Rest
       attacker.exhaustion -= 2
       return
     }
     attacker.exhaustion += attackCost
 
-    // Perform Defense
-    let defendCost = getExhaustionCost(attackType)
+    // Defense
+    const defenseType = getDefenseType(defender)
+    let defendCost = getExhaustionCost(defenseType)
     if (
+      // Not Exhausted
       defender.exhaustion + defendCost <= 10 &&
+      // Can Defend
       canDefendAttack(attackType, defenseType) &&
+      // Does Defend
       defendAttack(attacker.morale, defender.morale)
     ) {
       attacker.morale--
@@ -105,7 +105,7 @@ export function nextTick() {
     }
 
     // random body part
-    const bodyPart = getRandomItem(defender.bodyParts)
+    const bodyPart = getBodyPartToHit(defender.bodyParts)
 
     // create log
 
@@ -134,6 +134,26 @@ export function nextTick() {
       defender.alive = false
     }
   })
+}
+
+function getAttackType(attacker) {
+  return getRandomItem(attacker.equipment.weapon.type.attackTypes)
+}
+
+function getDefenseType({ bodyParts, equipment }) {
+  const defenseTypes = []
+  if (bodyParts.includes(RIGHT_LEG) && bodyParts.includes(LEFT_LEG)) {
+    defenseTypes.push(DODGE)
+  }
+  if (bodyParts.includes(RIGHT_ARM) || bodyParts.includes(LEFT_ARM)) {
+    defenseTypes.push(PARRY)
+  }
+  if (bodyParts.includes(RIGHT_ARM) && bodyParts.includes(LEFT_ARM) && equipment.shield) {
+    defenseTypes.push(BLOCK)
+    defenseTypes.push(BLOCK)
+    defenseTypes.push(BLOCK)
+  }
+  return getRandomItem(defenseTypes)
 }
 
 function nextInitiative(callback) {
