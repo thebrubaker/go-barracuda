@@ -62,6 +62,7 @@ function createGameState() {
 }
 
 export function nextTick() {
+  // Set up next in initiative, and pull out an attacker and defender
   nextInitiative((attacker, defender) => {
     // Determine if attacker can attack
     if (
