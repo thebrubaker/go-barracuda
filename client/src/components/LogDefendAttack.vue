@@ -7,7 +7,8 @@
     <span class="token function">{{ defender.name }} </span>
     <span class="token punctuation">with a </span>
     <span class="token inserted">{{ attacker.equipment.weapon.name }} </span>
-    <span class="token punctuation">but {{ getType() }}.</span>
+    <span class="token punctuation">but was </span>
+    <span class="token variable">{{ getType() }}.</span>
   </div>
 </template>
 
@@ -31,13 +32,13 @@ export default {
   methods: {
     getType() {
       if (this.defenseType === BLOCK) {
-        return 'was blocked'
+        return 'Blocked'
       }
       if (this.defenseType === DODGE) {
-        return 'was dodged'
+        return 'Dodged'
       }
       if (this.defenseType === PARRY) {
-        return 'was parried'
+        return 'Parried'
       }
     },
   },

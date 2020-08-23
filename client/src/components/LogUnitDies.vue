@@ -1,7 +1,7 @@
 <template>
   <div>
     <span class="token punctuation">[{{ turn }}] </span>
-    <span class="token entity">DEATH </span>
+    <span class="token variable">DEATH </span>
     <span class="token function">{{ defender.name }} </span>
     <span class="token punctuation">died at the hands of </span>
     <span class="token function">{{ attacker.name }}.</span>
