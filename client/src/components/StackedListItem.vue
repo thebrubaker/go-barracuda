@@ -14,31 +14,30 @@
                 >
                   <img
                     style="object-position: -6px -4px"
-                    :src="require(`@/assets/${types[type]}`)"
+                    :src="require(`@/assets/${types[unit.type]}`)"
                     alt=""
                   />
                 </div>
                 <span
-                  :class="{ 'line-through': !alive, 'text-red-600': !alive }"
+                  :class="{
+                    'line-through': !unit.alive,
+                    'text-red-600': !unit.alive,
+                  }"
                 >
-                  {{ name }}
+                  {{ unit.name }}
                 </span>
               </div>
             </div>
           </div>
         </div>
         <div
-          v-if="alive"
+          v-if="unit.alive"
           class="min-w-0 sm:flex sm:items-center sm:justify-between"
         >
           <div
             class="flex-shrink-0"
             v-for="(_, index) in filledExhaustion"
             :key="index"
-            :class="{
-              tired: exhaustion >= 5,
-              exhausted: exhaustion >= 8,
-            }"
           >
             <svg
               class="h-5 w-5"
@@ -61,7 +60,7 @@
           <div
             class="flex-shrink-0"
             v-for="(_, index) in emptyExhaustion"
-            :key="index + 10"
+            :key="index + unit.maxExhaustion"
           >
             <svg
               class="h-5 w-5 text-gray-300"
@@ -92,30 +91,19 @@ import {
 export default {
   components: {},
   props: {
-    name: {
+    unit: {
       required: true,
-      type: String,
-    },
-    alive: {
-      required: true,
-      type: Boolean,
-    },
-    exhaustion: {
-      required: true,
-      type: Number,
-    },
-    type: {
-      required: true,
+      type: Object,
     },
   },
   computed: {
     exhaustionColor() {
-      if (this.exhaustion >= 8) {
+      if (this.unit.exhaustion >= this.unit.maxExhaustion * 0.75) {
         return {
           'text-red-800': true,
         }
       }
-      if (this.exhaustion >= 5) {
+      if (this.unit.exhaustion >= this.unit.maxExhaustion * 0.5) {
         return {
           'text-yellow-400': true,
         }
@@ -124,11 +112,16 @@ export default {
         'text-green-500': true,
       }
     },
+    unitsOfExhaustion() {
+      return Math.round((this.unit.exhaustion / this.unit.maxExhaustion) * 10)
+    },
     filledExhaustion() {
-      return [...Array(this.exhaustion)]
+      return [...Array(this.unitsOfExhaustion)]
     },
     emptyExhaustion() {
-      return this.exhaustion > 10 ? [] : [...Array(10 - this.exhaustion)]
+      return this.unit.exhaustion > this.unit.maxExhaustion
+        ? []
+        : [...Array(10 - this.unitsOfExhaustion)]
     },
   },
   data() {

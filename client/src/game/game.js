@@ -66,6 +66,7 @@ export function nextTick() {
   // Set up next in initiative, and pull out an attacker and defender
   nextInitiative((attacker, defender) => {
     if (!defender) {
+      console.log('No Defender.')
       attacker.exhaustion = Math.max(0, attacker.exhaustion - 2)
       return
     }
@@ -74,32 +75,44 @@ export function nextTick() {
       !attacker.bodyParts.includes(RIGHT_ARM) &&
       !attacker.bodyParts.includes(LEFT_ARM)
     ) {
+      console.log('Attacker has no arms.')
       attacker.exhaustion = Math.max(0, attacker.exhaustion - 2)
       return
     }
     // Attack
     const attackType = getAttackType(attacker)
     let attackCost = getExhaustionCost(attackType)
-    if (attacker.exhaustion + attackCost > 10) {
+    if (attacker.exhaustion + attackCost > attacker.maxExhaustion) {
+      console.log('Attacker Too Tired.')
       // Too Tired, Must Rest
-      attacker.exhaustion = Math.max(0, attacker.exhaustion - 2)
+      attacker.exhaustion = Math.max(
+        0,
+        attacker.exhaustion - getRandomInt(2) - 2
+      )
       return
     }
-    attacker.exhaustion += attackCost
+    attacker.exhaustion = Math.min(
+      attacker.maxExhaustion,
+      attacker.exhaustion + attackCost
+    )
 
     // Defense
     const defenseType = getDefenseType(defender)
     let defendCost = getExhaustionCost(defenseType)
     if (
       // Not Exhausted
-      defender.exhaustion + defendCost <= 10 &&
+      defender.exhaustion + defendCost <= defender.maxExhaustion &&
       // Can Defend
       canDefendAttack(attackType, defenseType) &&
       // Does Defend
       defendAttack(attacker.morale, defender.morale)
     ) {
+      console.log('Defender stops attack.')
       attacker.morale--
-      defender.exhaustion += defendCost
+      defender.exhaustion = Math.min(
+        defender.maxExhaustion,
+        defender.exhaustion + defendCost
+      )
       return createDefendAttackLog({
         attacker,
         defender,
@@ -126,8 +139,9 @@ export function nextTick() {
 
     // create effect
     if ([RIGHT_ARM, LEFT_ARM, RIGHT_LEG, LEFT_LEG].includes(bodyPart)) {
+      console.log('Defender loses body part.')
       defender.morale = 0
-      defender.exhaustion = 10
+      defender.exhaustion = defender.maxExhaustion
       createDestroyedBodyPartLog({
         defender,
         bodyPart,
@@ -135,6 +149,7 @@ export function nextTick() {
     }
 
     if ([HEAD, BODY].includes(bodyPart)) {
+      console.log('Defender dies.')
       defender.alive = false
       createUnitDiesLog({
         attacker,

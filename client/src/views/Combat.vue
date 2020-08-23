@@ -24,10 +24,7 @@
               'current-target': isCurrentTarget(unit),
             }"
             :key="unit.key"
-            :name="unit.name"
-            :alive="unit.alive"
-            :exhaustion="unit.exhaustion"
-            :type="unit.type"
+            :unit="unit"
           />
         </StackedList>
       </el-col>
@@ -40,10 +37,7 @@
               'current-target': isCurrentTarget(unit),
             }"
             :key="unit.key"
-            :name="unit.name"
-            :alive="unit.alive"
-            :exhaustion="unit.exhaustion"
-            :type="unit.type"
+            :unit="unit"
           />
         </StackedList>
       </el-col>
