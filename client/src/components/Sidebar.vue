@@ -1,19 +1,10 @@
 <template>
   <div class="hidden lg:flex lg:flex-shrink-0">
-    <div
-      class="flex flex-col w-64 border-r border-gray-200 pt-5 pb-4 bg-gray-100"
-    >
-      <div class="flex items-center flex-shrink-0 px-6">
-        <img
-          class="h-8 w-auto"
-          src="https://tailwindui.com/img/logos/workflow-logo-purple-on-white.svg"
-          alt="Workflow"
-        />
-      </div>
+    <div class="flex flex-col w-64 border-r border-gray-200 bg-gray-100">
       <!-- Sidebar component, swap this element with another sidebar if you like -->
       <div class="h-0 flex-1 flex flex-col overflow-y-auto">
         <!-- User account dropdown -->
-        <div class="px-3 mt-6 relative inline-block text-left">
+        <div class="px-3 mt-4 relative inline-block text-left">
           <!-- Dropdown menu toggle, controlling the show/hide state of dropdown menu. -->
           <div>
             <button
@@ -27,16 +18,13 @@
                 <div class="flex items-center justify-between space-x-3">
                   <img
                     class="w-10 h-10 bg-gray-300 rounded-full flex-shrink-0"
-                    src="https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80"
+                    src="https://images.unsplash.com/photo-1571512599285-9ac4fdf3dba9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80"
                     alt
                   />
                   <div class="flex-1">
                     <h2 class="text-gray-900 text-sm leading-5 font-medium">
-                      Jessy Schwarz
+                      Embercom
                     </h2>
-                    <p class="text-gray-500 text-sm leading-5 truncate">
-                      @jessyschwarz
-                    </p>
                   </div>
                 </div>
                 <svg
@@ -140,7 +128,7 @@
                   d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
                 />
               </svg>
-              Recent
+              Logs
             </a>
           </div>
           <div class="mt-8">
@@ -149,7 +137,7 @@
               class="px-3 text-xs leading-4 font-semibold text-gray-500 uppercase tracking-wider"
               id="teams-headline"
             >
-              Teams
+              Quick Links
             </h3>
             <div
               class="mt-1 space-y-1"
@@ -163,7 +151,7 @@
                 <span
                   class="w-2.5 h-2.5 mr-4 bg-indigo-500 rounded-full"
                 ></span>
-                <span class="truncate">Engineering</span>
+                <span class="truncate">Regions</span>
               </a>
 
               <a
@@ -171,7 +159,7 @@
                 class="group flex items-center px-3 py-2 text-sm leading-5 font-medium text-gray-700 rounded-md hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition ease-in-out duration-150"
               >
                 <span class="w-2.5 h-2.5 mr-4 bg-teal-400 rounded-full"></span>
-                <span class="truncate">Human Resources</span>
+                <span class="truncate">Buildings</span>
               </a>
 
               <a
@@ -181,7 +169,7 @@
                 <span
                   class="w-2.5 h-2.5 mr-4 bg-orange-500 rounded-full"
                 ></span>
-                <span class="truncate">Customer Success</span>
+                <span class="truncate">Stockpile</span>
               </a>
             </div>
           </div>

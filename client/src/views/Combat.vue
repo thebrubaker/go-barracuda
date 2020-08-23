@@ -7,7 +7,10 @@
         </h1>
       </div>
       <div class="mt-4 flex sm:mt-0 sm:ml-4">
-        <el-button class="order-0 sm:order-1 sm:ml-3 shadow-sm rounded-md">
+        <el-button
+          @click="nextTick"
+          class="order-0 sm:order-1 sm:ml-3 shadow-sm rounded-md"
+        >
           Next Tick
         </el-button>
       </div>
@@ -16,58 +19,46 @@
       <el-col :span="12" class="border-gray-200 border-r h-full">
         <StackedList>
           <StackedListItem
-            name="Devin Strongfellow"
-            :action-points="2"
-            type="HumanFighter"
-          />
-          <StackedListItem
-            name="Storm Hallowborn"
-            :action-points="0"
-            type="HumanFighter"
-          />
-          <StackedListItem
-            name="Alfonse Steelsong"
-            :action-points="1"
-            type="HumanFighter"
+            v-for="unit in redTeam"
+            :class="{
+              'current-unit': isCurrentUnit(unit),
+              'current-target': isCurrentTarget(unit),
+            }"
+            :key="unit.key"
+            :name="unit.name"
+            :alive="unit.alive"
+            :exhaustion="unit.exhaustion"
+            :type="unit.type"
           />
         </StackedList>
       </el-col>
       <el-col :span="12">
         <StackedList>
           <StackedListItem
-            name="Goblin Warrior"
-            :action-points="2"
-            type="GoblinMelee"
-          />
-          <StackedListItem
-            name="Goblin Warrior"
-            :action-points="0"
-            type="GoblinMelee"
-          />
-          <StackedListItem
-            name="Goblin Leader"
-            :action-points="1"
-            type="GoblinLeader"
-          />
-          <StackedListItem
-            name="Goblin Slinger"
-            :action-points="1"
-            type="GoblinRanged"
-          />
-          <StackedListItem
-            name="Goblin Slinger"
-            :action-points="1"
-            type="GoblinRanged"
+            v-for="unit in blueTeam"
+            :class="{
+              'current-unit': isCurrentUnit(unit),
+              'current-target': isCurrentTarget(unit),
+            }"
+            :key="unit.key"
+            :name="unit.name"
+            :alive="unit.alive"
+            :exhaustion="unit.exhaustion"
+            :type="unit.type"
           />
         </StackedList>
       </el-col>
     </el-row>
-    <el-row class="bg-gray-700 shadow-inner flex-1">
+    <el-row class="bg-gray-700 shadow-inner flex-1 overflow-scroll">
       <el-col
         class="log-container theme-dark flex flex-col justify-end px-4 py-2 text-sm h-full"
         :span="24"
       >
-        <LogLine class="flex align-middle">
+        <LogLine
+          v-for="(log, index) in gameState.logs"
+          :key="index"
+          class="flex align-middle"
+        >
           <div>
             <svg
               viewBox="0 0 20 20"
@@ -81,43 +72,18 @@
               ></path>
             </svg>
           </div>
-          <div>
-            <span class="token punctuation">[10005.15] </span>
-            <span class="token entity">ATTACK </span>
-            <span class="token function">Devin Strongfellow </span>
-            <span class="token punctuation">took a swing at </span>
-            <span class="token function">Goblin Warror </span>
-            <span class="token punctuation">with his </span>
-            <span class="token inserted">Great Axe </span>
-            <span class="token punctuation">striking it on the </span>
-            <span class="token constant">Right Arm </span>
-            <span class="token punctuation">and </span>
-            <span class="token variable">Cutting Deep.</span>
-          </div>
-        </LogLine>
-        <LogLine class="flex align-middle">
-          <div>
-            <svg
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              class="chevron-right w-4 h-4 text-white"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                clip-rule="evenodd"
-              ></path>
-            </svg>
-          </div>
-          <div>
-            <span class="token punctuation">[10005.16] </span>
-            <span class="token entity">INFO </span>
-            <span class="token punctuation">The </span>
-            <span class="token constant">Right Arm </span>
-            <span class="token punctuation">of </span>
-            <span class="token function">Goblin Warror </span>
-            <span class="token punctuation">has been rendered useless.</span>
-          </div>
+          <LogWeaponAttack
+            v-if="log.type === 'WeaponAttack'"
+            v-bind="log"
+          ></LogWeaponAttack>
+          <LogDestroyedBodyPart
+            v-if="log.type === 'DestroyedBodyPart'"
+            v-bind="log"
+          ></LogDestroyedBodyPart>
+          <LogDefendAttack
+            v-if="log.type === 'DefendAttack'"
+            v-bind="log"
+          ></LogDefendAttack>
         </LogLine>
       </el-col>
     </el-row>
@@ -131,6 +97,10 @@ import PageHeader from '../components/PageHeader'
 import StackedList from '../components/StackedList'
 import StackedListItem from '../components/StackedListItem'
 import LogLine from '../components/LogLine'
+import LogWeaponAttack from '../components/LogWeaponAttack'
+import LogDestroyedBodyPart from '../components/LogDestroyedBodyPart'
+import LogDefendAttack from '../components/LogDefendAttack'
+import { gameState, nextTick } from '../game/game'
 
 export default {
   name: 'Home',
@@ -140,8 +110,33 @@ export default {
     StackedList,
     StackedListItem,
     LogLine,
+    LogWeaponAttack,
+    LogDestroyedBodyPart,
+    LogDefendAttack,
   },
-  methods: {},
+  data() {
+    return {
+      gameState,
+    }
+  },
+  computed: {
+    redTeam() {
+      return Object.values(gameState.units).filter(unit => unit.team === 1)
+    },
+    blueTeam() {
+      return Object.values(gameState.units).filter(unit => unit.team === 2)
+    },
+  },
+  methods: {
+    nextTick,
+    isCurrentUnit(unit) {
+      return unit.key === gameState.currentUnit
+    },
+    isCurrentTarget(unit) {
+      return unit.key === gameState.currentTarget
+    },
+  },
+  mounted() {},
 }
 </script>
 
