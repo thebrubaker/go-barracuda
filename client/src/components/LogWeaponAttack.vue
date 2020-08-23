@@ -8,16 +8,29 @@
     <span class="">with a </span>
     <span class="text-orange-200">{{ attacker.equipment.weapon.name }} </span>
     <span class="">and </span>
-    <span class="text-red-500">Hit </span>
+    <span class="text-red-500">{{ getDamageType(attackType) }} </span>
     <span class="">their </span>
-    <span class="text-blue-300">{{ bodyPart }}.</span>
+    <span class="text-blue-300">{{ getBodyPart(bodyPart) }}.</span>
   </div>
 </template>
 
 <script>
-function getRandomItem(items) {
-  return items[Math.floor(Math.random() * items.length)]
-}
+import { getRandomItem } from '../game/utils'
+import {
+  BODY,
+  HEAD,
+  LEFT_ARM,
+  RIGHT_ARM,
+  LEFT_LEG,
+  RIGHT_LEG,
+} from '../game/units'
+import {
+  NORMAL_ATTACK,
+  STRONG_ATTACK,
+  QUICK_ATTACK,
+  WILD_ATTACK,
+} from '../game/combat'
+
 export default {
   components: {},
   props: [
@@ -45,17 +58,75 @@ export default {
         'ferociously struck at',
         'took a wild swipe at',
       ],
-      damageTypes: [
-        { text: 'Barely Grazed', value: 1 },
-        { text: 'Hit', value: 2 },
-        { text: 'Slashed Into', value: 5 },
-        { text: 'Cut Deep Into', value: 8 },
-      ],
     }
   },
   methods: {
+    getDamageType(attackType) {
+      switch (attackType) {
+        case NORMAL_ATTACK:
+        case STRONG_ATTACK:
+        case QUICK_ATTACK:
+        case WILD_ATTACK:
+          return getRandomItem([
+            'Slashed Into',
+            'Cut Into',
+            'Cut',
+            'Slashed',
+            'Gashed',
+            'Slit',
+            'Lacerated',
+            'Hacked',
+            'Punctured',
+            'Fractured',
+          ])
+      }
+    },
     getHitType() {
       return getRandomItem(this.hitTypes)
+    },
+    getBodyPart(type) {
+      switch (type) {
+        case BODY:
+          return getRandomItem([
+            'Chest',
+            'Stomache',
+            'Clavicle',
+            'Shoulder',
+            'Abdomen',
+            'Upper Back',
+            'Lower Back',
+            'Ribs',
+            'Belly',
+            'Body',
+            'Back',
+            'Upper Back',
+            'Lower Back',
+          ])
+        case HEAD:
+          return getRandomItem(['Head', 'Eyes', 'Neck', 'Throat', 'Face'])
+        case LEFT_ARM:
+        case RIGHT_ARM:
+          return getRandomItem([
+            'Arm',
+            'Wrist',
+            'Shoulder',
+            'Upper Arm',
+            'Lower Arm',
+            'Elbow',
+            'Hand',
+          ])
+        case LEFT_LEG:
+        case RIGHT_LEG:
+          return getRandomItem([
+            'Leg',
+            'Thigh',
+            'Upper Leg',
+            'Lower Leg',
+            'Calf',
+            'Ankle',
+            'Foot',
+          ])
+      }
     },
   },
 }
