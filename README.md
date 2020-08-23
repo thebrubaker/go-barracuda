@@ -16,7 +16,7 @@ This repository is a playground for working on various game design concepts clie
 
 This is a turn-based combat simulator that pits two teams against one another.
 
-- game/game.js nextTick() is where all the action happens
+- `game/game.js nextTick()` is where all the action happens
 - `views/Combat.vue` is the View and `/combat` is the Route
 
 ### Initiative & Actions
