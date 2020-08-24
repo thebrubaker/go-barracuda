@@ -1,5 +1,5 @@
 <template>
-  <PageContainer>
+  <PageContainer @keyup.space="nextTick">
     <PageHeader>
       <div class="flex-1 min-w-0">
         <h1 class="text-lg font-medium leading-6 text-gray-900 sm:truncate">
@@ -135,7 +135,13 @@ export default {
       return unit.key === gameState.currentTarget
     },
   },
-  mounted() {},
+  mounted() {
+    window.addEventListener('keydown', event => {
+      if (event.keyCode === 32) {
+        this.nextTick()
+      }
+    })
+  },
 }
 </script>
 

@@ -5,24 +5,31 @@
       class="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"
     >
       <div class="px-4 py-2 flex items-center">
-        <div class="min-w-0 flex-1 sm:flex sm:items-center sm:justify-between">
-          <div>
-            <div class="flex">
-              <div class="flex items-center text-sm leading-5 text-gray-500">
-                <div
-                  class="inline-block h-6 w-6 text-white shadow-solid mr-1.5"
-                >
-                  <img :src="require(`@/assets/${types[unit.type]}`)" alt="" />
-                </div>
-                <span
-                  :class="{
-                    'line-through': !unit.alive,
-                    'text-red-600': !unit.alive,
-                  }"
-                >
-                  {{ unit.name }}
-                </span>
-              </div>
+        <div class="min-w-0 flex flex-1 sm:items-center sm:justify-between">
+          <div class="flex items-center text-sm leading-5 text-gray-500">
+            <div class="inline-block h-6 w-6 text-white shadow-solid mr-1.5">
+              <img :src="require(`@/assets/${types[unit.type]}`)" alt="" />
+            </div>
+            <span
+              :class="{
+                'line-through': !unit.alive,
+                'text-red-600': !unit.alive,
+              }"
+            >
+              {{ unit.name }}
+            </span>
+            <div
+              v-if="isMissingLimb"
+              class="inline-block h-3 w-3 ml-2 text-white"
+            >
+              <el-tooltip
+                class="item"
+                effect="dark"
+                content="Damaged Limb"
+                placement="top-start"
+              >
+                <img :src="require(`@/assets/icons/slash.png`)" alt="" />
+              </el-tooltip>
             </div>
           </div>
         </div>
@@ -87,6 +94,7 @@ import {
   GOBLIN_RANGED,
   GOBLIN_LEADER,
 } from '../game/units'
+import { LEFT_ARM, RIGHT_ARM, LEFT_LEG, RIGHT_LEG } from '../game/units'
 
 export default {
   components: {},
@@ -122,6 +130,14 @@ export default {
       return this.unit.exhaustion > this.unit.maxExhaustion
         ? []
         : [...Array(10 - this.unitsOfExhaustion)]
+    },
+    isMissingLimb() {
+      return (
+        !this.unit.bodyParts.includes(RIGHT_ARM) ||
+        !this.unit.bodyParts.includes(LEFT_ARM) ||
+        !this.unit.bodyParts.includes(LEFT_LEG) ||
+        !this.unit.bodyParts.includes(RIGHT_LEG)
+      )
     },
   },
   data() {
