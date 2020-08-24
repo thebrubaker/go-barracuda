@@ -25,12 +25,11 @@ export const CONDITION_WORN = 0
 export const CONDITION_FAIR = 1
 export const CONDITION_GOOD = 2
 
-export function armorProtectsAttack(armorType, attackType) {
-  return armorType.protection.includes(attackType)
-}
-
-export function rollArmorConditionLoss(quality) {
-  switch (quality) {
+export function rollArmorConditionLoss(armor, helmet = false) {
+  if (helmet) {
+    return rollHelmetConditionLoss(armor)
+  }
+  switch (armor.quality) {
     case QUALITY_LOW:
       return getRandomInt(3) <= 1
     case QUALITY_NORMAL:
@@ -42,8 +41,8 @@ export function rollArmorConditionLoss(quality) {
   }
 }
 
-export function rollHelmetConditionLoss(quality) {
-  switch (quality) {
+export function rollHelmetConditionLoss(armor) {
+  switch (armor.quality) {
     case QUALITY_LOW:
       return getRandomInt(2) <= 1
     case QUALITY_NORMAL:

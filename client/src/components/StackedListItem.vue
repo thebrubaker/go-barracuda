@@ -4,10 +4,10 @@
       href="#"
       class="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"
     >
-      <div class="px-4 py-2 flex items-center">
+      <div class="px-4 py-1 flex items-center">
         <div class="min-w-0 flex flex-1 sm:items-center sm:justify-between">
-          <div class="flex items-center text-sm leading-5 text-gray-500">
-            <div class="inline-block h-6 w-6 text-white shadow-solid mr-1.5">
+          <div class="flex items-center text-xs leading-5 text-gray-500">
+            <div class="inline-block h-4 w-4 text-white shadow-solid mr-1.5">
               <img :src="require(`@/assets/${types[unit.type]}`)" alt="" />
             </div>
             <span

@@ -19,6 +19,7 @@ import {
   getExhaustionCost,
   getBodyPartToHit,
 } from './combat'
+import { rollArmorConditionLoss } from './armor'
 
 export const gameState = createGameState()
 
@@ -33,8 +34,8 @@ function createGameState() {
     initiativeOrder: [],
   }
 
-  let fighterCount = getRandomInt(3) + 3
-  let enemyCount = getRandomInt(4) + 6
+  let fighterCount = getRandomInt(3) + 5
+  let enemyCount = getRandomInt(4) + 13
 
   // Generate Some Fighters
   for (let index = 0; index < fighterCount; index++) {
@@ -81,16 +82,21 @@ export function nextTick() {
     }
     // Attack
     const attackType = getAttackType(attacker)
+    const swingType = getSwingType(attacker)
+    const damageType = attacker.equipment.weapon.type.damageTypes[swingType]
+    console.log(`Making a ${attackType} with a ${swingType} / ${damageType}`)
     let attackCost = getExhaustionCost(attackType)
+    // Too Tired
     if (attacker.exhaustion + attackCost > attacker.maxExhaustion) {
       console.log('Attacker Too Tired.')
-      // Too Tired, Must Rest
+      // Time to Rest
       attacker.exhaustion = Math.max(
         0,
         attacker.exhaustion - getRandomInt(2) - 2
       )
       return
     }
+    // Perform Attack
     attacker.exhaustion = Math.min(
       attacker.maxExhaustion,
       attacker.exhaustion + attackCost
@@ -102,13 +108,15 @@ export function nextTick() {
     if (
       // Not Exhausted
       defender.exhaustion + defendCost <= defender.maxExhaustion &&
-      // Can Defend
+      // Can Defend Attack
       canDefendAttack(attackType, defenseType) &&
-      // Does Defend
+      // Successfully Defend
       defendAttack(attacker.morale, defender.morale)
     ) {
       console.log('Defender stops attack.')
+      // Attacker is like, awe man...
       attacker.morale--
+      // Defender is a bit more tired
       defender.exhaustion = Math.min(
         defender.maxExhaustion,
         defender.exhaustion + defendCost
@@ -117,19 +125,59 @@ export function nextTick() {
         attacker,
         defender,
         attackType,
+        swingType,
+        damageType,
         defenseType,
       })
     }
 
-    // random body part
+    // attacker strikes a body part
     const bodyPart = getBodyPartToHit(defender.bodyParts)
+    console.log(`Attacker targets ${bodyPart}`)
+    // is it armored?
+    const armor = getArmorForBodyPart(defender, bodyPart)
+    if (armor) {
+      console.log('Defender Has Armor')
+    }
+    // does that armor block the attack?
+    const blocked = armor ? armorBlocksAttack(armor, damageType) : false
 
-    // create log
+    // Armor takes some damage from the attack
+    if (blocked) {
+      console.log('Armor blocked the attack')
+      createArmorDefenseLog({
+        attacker,
+        defender,
+        armor,
+        attackType,
+        swingType,
+        damageType,
+        defenseType,
+        bodyPart,
+      })
+      if (rollArmorConditionLoss(armor.quality, bodyPart)) {
+        console.log('Armor was damaged from the attack')
+        armor.condition--
+        createArmorConditionLog({
+          defender,
+          armor,
+          attackType,
+          swingType,
+          damageType,
+          bodyPart,
+        })
+      }
+      return
+    }
 
+    // Weapon hits the body part
     createWeaponAttackLog({
       attacker,
       defender,
+      armor,
       attackType,
+      swingType,
+      damageType,
       defenseType,
       bodyPart,
     })
@@ -137,13 +185,19 @@ export function nextTick() {
     // lose body part
     defender.bodyParts = defender.bodyParts.filter(part => part !== bodyPart)
 
-    // create effect
+    // defender is exhausted and demoralized from losing a body part
     if ([RIGHT_ARM, LEFT_ARM, RIGHT_LEG, LEFT_LEG].includes(bodyPart)) {
       console.log('Defender loses body part.')
       defender.morale = 0
       defender.exhaustion = defender.maxExhaustion
       createDestroyedBodyPartLog({
+        attacker,
         defender,
+        armor,
+        attackType,
+        swingType,
+        damageType,
+        defenseType,
         bodyPart,
       })
     }
@@ -154,13 +208,35 @@ export function nextTick() {
       createUnitDiesLog({
         attacker,
         defender,
+        armor,
+        attackType,
+        swingType,
+        damageType,
+        defenseType,
+        bodyPart,
       })
     }
   })
 }
 
+function armorBlocksAttack(armor, damageType) {
+  if (armor.condition <= 0) {
+    return false
+  }
+
+  return armor.type.protection.includes(damageType)
+}
+
+function getArmorForBodyPart({ equipment }, bodyPart) {
+  return bodyPart === HEAD ? equipment.head : equipment.body
+}
+
 function getAttackType(attacker) {
   return getRandomItem(attacker.equipment.weapon.type.attackTypes)
+}
+
+function getSwingType(attacker) {
+  return getRandomItem(Object.keys(attacker.equipment.weapon.type.damageTypes))
 }
 
 function getDefenseType({ bodyParts, equipment }) {
@@ -200,6 +276,45 @@ function nextInitiative(callback) {
     return gameState.units[key].alive
   })
   gameState.step++
+}
+
+function createArmorDefenseLog({
+  attacker,
+  defender,
+  armor,
+  attackType,
+  defenseType,
+  bodyPart,
+}) {
+  gameState.logs.push({
+    turn: gameState.turn + '.' + gameState.step,
+    type: 'ArmorDefense',
+    attacker,
+    defender,
+    armor,
+    attackType,
+    defenseType,
+    bodyPart,
+  })
+}
+function createArmorConditionLog({
+  attacker,
+  defender,
+  armor,
+  attackType,
+  defenseType,
+  bodyPart,
+}) {
+  gameState.logs.push({
+    turn: gameState.turn + '.' + gameState.step,
+    type: 'ArmorCondition',
+    attacker,
+    defender,
+    armor,
+    attackType,
+    defenseType,
+    bodyPart,
+  })
 }
 
 function createDefendAttackLog({

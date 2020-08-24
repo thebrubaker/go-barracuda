@@ -202,7 +202,7 @@ function randomFighterArmor() {
       condition: getRandomItem([
         CONDITION_GOOD,
         CONDITION_FAIR,
-        CONDITION_WORN,
+        CONDITION_FAIR,
       ]),
       quality: getRandomItem([QUALITY_LOW, QUALITY_NORMAL, QUALITY_HIGH]),
     },

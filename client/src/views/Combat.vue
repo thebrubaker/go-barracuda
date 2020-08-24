@@ -81,6 +81,14 @@
             v-if="log.type === 'UnitDies'"
             v-bind="log"
           ></LogUnitDies>
+          <LogArmorCondition
+            v-if="log.type === 'ArmorCondition'"
+            v-bind="log"
+          ></LogArmorCondition>
+          <LogArmorDefense
+            v-if="log.type === 'ArmorDefense'"
+            v-bind="log"
+          ></LogArmorDefense>
         </LogLine>
       </el-col>
     </el-row>
@@ -98,6 +106,8 @@ import LogWeaponAttack from '../components/LogWeaponAttack'
 import LogDestroyedBodyPart from '../components/LogDestroyedBodyPart'
 import LogDefendAttack from '../components/LogDefendAttack'
 import LogUnitDies from '../components/LogUnitDies'
+import LogArmorCondition from '../components/LogArmorCondition'
+import LogArmorDefense from '../components/LogArmorDefense'
 import { gameState, nextTick } from '../game/game'
 
 export default {
@@ -112,6 +122,8 @@ export default {
     LogDestroyedBodyPart,
     LogDefendAttack,
     LogUnitDies,
+    LogArmorCondition,
+    LogArmorDefense,
   },
   data() {
     return {
