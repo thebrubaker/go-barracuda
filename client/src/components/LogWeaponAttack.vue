@@ -70,7 +70,6 @@ export default {
           return getRandomItem([
             'Slashed Into',
             'Cut Into',
-            'Cut',
             'Slashed',
             'Gashed',
             'Slit',
@@ -103,7 +102,7 @@ export default {
             'Lower Back',
           ])
         case HEAD:
-          return getRandomItem(['Head', 'Eyes', 'Neck', 'Throat', 'Face'])
+          return getRandomItem(['Head', 'Skull', 'Neck', 'Throat', 'Face'])
         case LEFT_ARM:
         case RIGHT_ARM:
           return getRandomItem([

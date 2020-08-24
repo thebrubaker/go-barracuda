@@ -11,7 +11,6 @@ This repository is a playground for working on various game design concepts clie
 - [Tailwind CSS](https://tailwindcss.com/)
 - [Tailwind UI](https://tailwindui.com/)
 
-
 ## Combat Simulator
 
 This is a turn-based combat simulator that pits two teams against one another.
@@ -30,3 +29,31 @@ A unit's morale determines how likely they are to land a blow on an opponent. Th
 ### Damage
 
 Landing a successful blow on an opponent is almost always a one-hit kill. Limbs can be destroyed or cut off. Armor has an added chance of deflecting a blow. Armor can be destroyed when deflecting a blow.
+
+### Feature Request
+
+## Log Template Language
+
+It should be easier to write log messages with syntax highlighting. Right now it would be hard for a server to write log messages without having to couple it to the HTML client. Instead we should write a template parser that converts a string into HTML with the appropriate classes.
+
+Think of how Markdown works. The following templating language could be parsed into the appropriate HTML:
+
+`[1.34] (COMBAT) *Neirin Aurelian* unleashed a flurry of attacks at *Goblin Fighter* with a _Large Spiked Hammer_ and **Slit** their __Upper Leg__.`
+
+```html
+<div class="text-white">
+  <span class="text-gray-400">[1.34] </span>
+  <span class="text-orange-300">COMBAT </span>
+  <span class="text-yellow-100">Neirin Aurelian </span>
+  <span class="">unleashed a flurry of attacks at </span>
+  <span class="text-yellow-100">Goblin Fighter </span>
+  <span class="">with a </span>
+  <span class="text-orange-200">Large Spiked Hammer </span>
+  <span class="">and </span>
+  <span class="text-red-500">Slit </span>
+  <span class="">their </span>
+  <span class="text-blue-300">Upper Leg.</span>
+</div>
+```
+
+## Armor

@@ -19,6 +19,7 @@ export function randomGoblinWeapon() {
       type: Sword,
       name: getRandomItem(['Short Sword', 'Small Scimitar']),
     },
+    getRandomMace(),
     getRandomDagger(),
   ])
 }
@@ -52,17 +53,14 @@ export function randomFighterWeapon() {
         'Polearm',
         'Partisan',
         'Trident',
+        'Glaive',
+        'Boar Spear',
+        'Two-Pronged Fork',
+        'Lance',
+        'Javelin',
       ]),
     },
-    {
-      type: Mace,
-      name: getRandomItem([
-        'War Mace',
-        'Morning Star',
-        'Shishpar',
-        'Eight Flanged Mace',
-      ]),
-    },
+    getRandomMace(),
     {
       type: Sword,
       name: getRandomItem([
@@ -76,6 +74,21 @@ export function randomFighterWeapon() {
     },
     getRandomDagger(),
   ])
+}
+
+export function getRandomMace() {
+  return {
+    type: Mace,
+    name: getRandomItem([
+      'War Mace',
+      'Morning Star',
+      'Shishpar',
+      'Eight Flanged Mace',
+      'Club',
+      'Studded Club',
+      'Spiked Club',
+    ]),
+  }
 }
 
 export function getRandomDagger() {

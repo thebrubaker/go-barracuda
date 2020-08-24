@@ -12,11 +12,7 @@
                 <div
                   class="inline-block h-6 w-6 text-white shadow-solid mr-1.5"
                 >
-                  <img
-                    style="object-position: -6px -4px"
-                    :src="require(`@/assets/${types[unit.type]}`)"
-                    alt=""
-                  />
+                  <img :src="require(`@/assets/${types[unit.type]}`)" alt="" />
                 </div>
                 <span
                   :class="{
@@ -82,7 +78,11 @@
 
 <script>
 import {
-  HUMAN_FIGHTER,
+  HUMAN_BRIGAND,
+  HUMAN_SHOOTER,
+  HUMAN_STEAMER,
+  HUMAN_WOODCUTTER,
+  HUMAN_ROBBER,
   GOBLIN_MELEE,
   GOBLIN_RANGED,
   GOBLIN_LEADER,
@@ -127,7 +127,11 @@ export default {
   data() {
     return {
       types: {
-        [HUMAN_FIGHTER]: 'Brigand.png',
+        [HUMAN_BRIGAND]: 'Brigand.png',
+        [HUMAN_SHOOTER]: 'Shooter.png',
+        [HUMAN_STEAMER]: 'SteamMan.png',
+        [HUMAN_WOODCUTTER]: 'Woodcutter.png',
+        [HUMAN_ROBBER]: 'GraveRobber.png',
         [GOBLIN_MELEE]: 'Goblin_Melee.png',
         [GOBLIN_RANGED]: 'Goblin_Range.png',
         [GOBLIN_LEADER]: 'Goblin_Mage.png',

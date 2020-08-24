@@ -8,7 +8,11 @@ export const RIGHT_ARM = 'RIGHT_ARM'
 export const LEFT_LEG = 'LEFT_LEG'
 export const RIGHT_LEG = 'RIGHT_LEG'
 
-export const HUMAN_FIGHTER = Symbol()
+export const HUMAN_BRIGAND = Symbol()
+export const HUMAN_SHOOTER = Symbol()
+export const HUMAN_STEAMER = Symbol()
+export const HUMAN_WOODCUTTER = Symbol()
+export const HUMAN_ROBBER = Symbol()
 
 export const LEATHER = Symbol()
 export const CHAINMAIL = Symbol()
@@ -111,7 +115,13 @@ export function generateFighter() {
 
   return {
     name: `${firstName} ${lastName}`,
-    type: HUMAN_FIGHTER,
+    type: getRandomItem([
+      HUMAN_BRIGAND,
+      HUMAN_SHOOTER,
+      HUMAN_STEAMER,
+      HUMAN_WOODCUTTER,
+      HUMAN_ROBBER,
+    ]),
     equipment: getRandomFighterEquipment(),
     bodyParts: newBodyParts(),
     exhaustion: 0,
