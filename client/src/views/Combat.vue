@@ -69,10 +69,6 @@
             v-if="log.type === 'WeaponAttack'"
             v-bind="log"
           ></LogWeaponAttack>
-          <LogDestroyedBodyPart
-            v-if="log.type === 'DestroyedBodyPart'"
-            v-bind="log"
-          ></LogDestroyedBodyPart>
           <LogDefendAttack
             v-if="log.type === 'DefendAttack'"
             v-bind="log"
@@ -103,7 +99,6 @@ import StackedList from '../components/StackedList'
 import StackedListItem from '../components/StackedListItem'
 import LogLine from '../components/LogLine'
 import LogWeaponAttack from '../components/LogWeaponAttack'
-import LogDestroyedBodyPart from '../components/LogDestroyedBodyPart'
 import LogDefendAttack from '../components/LogDefendAttack'
 import LogUnitDies from '../components/LogUnitDies'
 import LogArmorCondition from '../components/LogArmorCondition'
@@ -119,7 +114,6 @@ export default {
     StackedListItem,
     LogLine,
     LogWeaponAttack,
-    LogDestroyedBodyPart,
     LogDefendAttack,
     LogUnitDies,
     LogArmorCondition,

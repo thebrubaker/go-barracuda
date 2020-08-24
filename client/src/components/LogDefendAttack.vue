@@ -4,24 +4,24 @@
       <span class="text-gray-400">[{{ turn }}] </span>
       <span class="text-orange-300">COMBAT </span>
       <span class="text-yellow-100">{{ attacker.name }} </span>
-      <span class="">{{ getHitType() }} </span>
+      <span class="">{{ getHitType(this.swingType, this.attackType) }} </span>
       <span class="text-yellow-100">{{ defender.name }} </span>
-      <span class="">with a </span>
+      <span class="">with their </span>
       <span class="text-orange-300">{{ attacker.equipment.weapon.name }} </span>
       <span class="">but their shield </span>
-      <span class="text-red-400">{{ getBlockMessage() }} </span>
+      <span class="text-yellow-300">{{ getBlockType() }} </span>
       <span>the attack.</span>
     </div>
     <div class="text-white" v-if="defenseType === types.PARRY">
       <span class="text-gray-400">[{{ turn }}] </span>
       <span class="text-orange-300">COMBAT </span>
       <span class="text-yellow-100">{{ attacker.name }} </span>
-      <span class="">{{ getHitType() }} </span>
+      <span class="">{{ getHitType(this.swingType, this.attackType) }} </span>
       <span class="text-yellow-100">{{ defender.name }} </span>
-      <span class="">with a </span>
+      <span class="">with their </span>
       <span class="text-orange-300">{{ attacker.equipment.weapon.name }} </span>
       <span class="">but was </span>
-      <span class="text-red-400">{{ getParryMessage() }} </span>
+      <span class="text-yellow-300">{{ getParryType() }} </span>
       <span>by their </span>
       <span class="text-orange-300">{{ defender.equipment.weapon.name }}.</span>
     </div>
@@ -29,20 +29,25 @@
       <span class="text-gray-400">[{{ turn }}] </span>
       <span class="text-orange-300">COMBAT </span>
       <span class="text-yellow-100">{{ attacker.name }} </span>
-      <span class="">{{ getHitType() }} </span>
+      <span class="">{{ getHitType(this.swingType, this.attackType) }} </span>
       <span class="text-yellow-100">{{ defender.name }} </span>
-      <span class="">with a </span>
+      <span class="">with their </span>
       <span class="text-orange-300">{{ attacker.equipment.weapon.name }} </span>
       <span class="">but they </span>
-      <span class="text-red-400">{{ getDodgeMessage() }} </span>
+      <span class="text-yellow-300">{{ getDodgeType() }} </span>
       <span>the attack.</span>
     </div>
   </div>
 </template>
 
 <script>
-import { getRandomItem } from '../game/utils'
 import { BLOCK, DODGE, PARRY } from '../game/combat'
+import {
+  getBlockType,
+  getParryType,
+  getDodgeType,
+  getHitType,
+} from '../game/log'
 
 export default {
   components: {},
@@ -52,6 +57,7 @@ export default {
     'attacker',
     'defender',
     'attackType',
+    'swingType',
     'defenseType',
     'bodyPart',
   ],
@@ -65,49 +71,10 @@ export default {
     }
   },
   methods: {
-    getHitType() {
-      return getRandomItem([
-        'took a swing at',
-        'unleashed an attack on',
-        'took a violent swing at',
-        'swiped at',
-        'loosed an attack on',
-        'unleashed a flurry of attacks at',
-        'took a tentative swipe at',
-        'lashed out at',
-        'stole a quick attack on',
-        'ferociously struck at',
-        'took a wild swipe at',
-      ])
-    },
-    getBlockMessage() {
-      return getRandomItem(['Blocked', 'Knocked Back', 'Stopped'])
-    },
-    getParryMessage() {
-      return getRandomItem([
-        'Parried',
-        'Knocked Away',
-        'Warded Off',
-        'Deflected',
-        'Held Off',
-        'Blocked',
-        'Rebuffed',
-        'Repelled',
-        'Countered',
-      ])
-    },
-    getDodgeMessage() {
-      return getRandomItem([
-        'Dodged',
-        'Ducked Under',
-        'Evaded',
-        'Side-Stepped',
-        'Sprang From',
-        'Jumped Away From',
-        'Shook',
-        'Dove From',
-      ])
-    },
+    getHitType,
+    getBlockType,
+    getParryType,
+    getDodgeType,
   },
 }
 </script>

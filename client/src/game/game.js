@@ -35,7 +35,7 @@ function createGameState() {
   }
 
   let fighterCount = getRandomInt(3) + 5
-  let enemyCount = getRandomInt(4) + 13
+  let enemyCount = getRandomInt(4) + 15
 
   // Generate Some Fighters
   for (let index = 0; index < fighterCount; index++) {
@@ -66,6 +66,7 @@ function createGameState() {
 export function nextTick() {
   // Set up next in initiative, and pull out an attacker and defender
   nextInitiative((attacker, defender) => {
+    console.log({ attacker: attacker.name, defender: defender.name })
     if (!defender) {
       console.log('No Defender.')
       attacker.exhaustion = Math.max(0, attacker.exhaustion - 2)
@@ -159,11 +160,13 @@ export function nextTick() {
         console.log('Armor was damaged from the attack')
         armor.condition--
         createArmorConditionLog({
+          attacker,
           defender,
           armor,
           attackType,
           swingType,
           damageType,
+          defenseType,
           bodyPart,
         })
       }
@@ -190,16 +193,6 @@ export function nextTick() {
       console.log('Defender loses body part.')
       defender.morale = 0
       defender.exhaustion = defender.maxExhaustion
-      createDestroyedBodyPartLog({
-        attacker,
-        defender,
-        armor,
-        attackType,
-        swingType,
-        damageType,
-        defenseType,
-        bodyPart,
-      })
     }
 
     if ([HEAD, BODY].includes(bodyPart)) {
@@ -283,6 +276,8 @@ function createArmorDefenseLog({
   defender,
   armor,
   attackType,
+  swingType,
+  damageType,
   defenseType,
   bodyPart,
 }) {
@@ -293,81 +288,51 @@ function createArmorDefenseLog({
     defender,
     armor,
     attackType,
+    swingType,
+    damageType,
     defenseType,
     bodyPart,
   })
 }
-function createArmorConditionLog({
-  attacker,
-  defender,
-  armor,
-  attackType,
-  defenseType,
-  bodyPart,
-}) {
+function createArmorConditionLog(context) {
   gameState.logs.push({
     turn: gameState.turn + '.' + gameState.step,
     type: 'ArmorCondition',
-    attacker,
-    defender,
-    armor,
-    attackType,
-    defenseType,
-    bodyPart,
+    ...context,
   })
 }
 
-function createDefendAttackLog({
-  attacker,
-  defender,
-  attackType,
-  defenseType,
-}) {
+function createDefendAttackLog(context) {
   gameState.logs.push({
     turn: gameState.turn + '.' + gameState.step,
     type: 'DefendAttack',
-    attacker,
-    defender,
-    attackType,
-    defenseType,
+    ...context,
   })
 }
 
-function createUnitDiesLog({ attacker, defender }) {
+function createUnitDiesLog(context) {
   gameState.logs.push({
     turn: gameState.turn + '.' + gameState.step,
     type: 'UnitDies',
-    attacker,
-    defender,
+    ...context,
   })
 }
 
-function createWeaponAttackLog({
-  attacker,
-  defender,
-  attackType,
-  defenseType,
-  bodyPart,
-}) {
+function createWeaponAttackLog(context) {
   gameState.logs.push({
     turn: gameState.turn + '.' + gameState.step,
     type: 'WeaponAttack',
-    attacker,
-    defender,
-    attackType,
-    defenseType,
-    bodyPart,
+    ...context,
   })
 }
 
-function createDestroyedBodyPartLog({ defender, bodyPart }) {
-  gameState.logs.push({
-    turn: gameState.turn + '.' + gameState.step,
-    type: 'DestroyedBodyPart',
-    defender,
-    bodyPart,
-  })
-}
+// function createDestroyedBodyPartLog(context) {
+//   gameState.logs.push({
+//     turn: gameState.turn + '.' + gameState.step,
+//     type: 'DestroyedBodyPart',
+//     ...context,
+//   })
+// }
 
 function generateInitiativeOrder(units) {
   let order = []
