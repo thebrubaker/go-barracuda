@@ -2,15 +2,15 @@ import { getRandomInt, getRandomItem } from './utils'
 
 import { BODY, HEAD, RIGHT_ARM, RIGHT_LEG, LEFT_ARM, LEFT_LEG } from './units'
 
-export const NORMAL_ATTACK = Symbol()
-export const STRONG_ATTACK = Symbol()
-export const WILD_ATTACK = Symbol()
-export const QUICK_ATTACK = Symbol()
+export const NORMAL_ATTACK = 'NORMAL_ATTACK'
+export const STRONG_ATTACK = 'STRONG_ATTACK'
+export const WILD_ATTACK = 'WILD_ATTACK'
+export const QUICK_ATTACK = 'QUICK_ATTACK'
 
-export const BLOCK = Symbol()
-export const DODGE = Symbol()
-export const PARRY = Symbol()
-export const COUNTER = Symbol()
+export const BLOCK = 'BLOCK'
+export const DODGE = 'DODGE'
+export const PARRY = 'PARRY'
+export const COUNTER = 'COUNTER'
 
 export function defendAttack(attackerMorale, defenderMorale) {
   return rollTheDice(defenderMorale) >= rollTheDice(attackerMorale)
@@ -50,7 +50,6 @@ function rollTheDice(morale) {
   }
   let firstRoll = getRandomInt(20)
   let secondRoll = rollTheDice(morale - 1)
-  console.log({ firstRoll, secondRoll })
   return firstRoll > secondRoll ? firstRoll : secondRoll
 }
 

@@ -1,5 +1,17 @@
 import { randomFighterWeapon, randomGoblinWeapon } from './weapons'
 import { getRandomItem, getRandomInt } from './utils'
+import {
+  ARMOR_TYPE_LEATHER,
+  ARMOR_TYPE_CHAINMAIL,
+  ARMOR_TYPE_PLATE,
+  QUALITY_LOW,
+  QUALITY_NORMAL,
+  QUALITY_HIGH,
+  CONDITION_WORN,
+  CONDITION_FAIR,
+  CONDITION_GOOD,
+  SHIELD,
+} from './armor'
 
 export const HEAD = 'HEAD'
 export const BODY = 'BODY'
@@ -13,10 +25,6 @@ export const HUMAN_SHOOTER = Symbol()
 export const HUMAN_STEAMER = Symbol()
 export const HUMAN_WOODCUTTER = Symbol()
 export const HUMAN_ROBBER = Symbol()
-
-export const LEATHER = Symbol()
-export const CHAINMAIL = Symbol()
-export const SHIELD = Symbol()
 
 export const GOBLIN_MELEE = Symbol()
 export const GOBLIN_LEADER = Symbol()
@@ -32,7 +40,12 @@ export function generateGoblin() {
       'Small Goblin',
     ]),
     type: getRandomItem([GOBLIN_MELEE, GOBLIN_LEADER, GOBLIN_RANGED]),
-    equipment: getRandomGoblinEquipment(),
+    equipment: {
+      head: randomGoblinArmor(),
+      body: randomGoblinArmor(),
+      weapon: randomGoblinWeapon(),
+      shield: null,
+    },
     bodyParts: newBodyParts(),
     exhaustion: 0,
     maxExhaustion: 10,
@@ -122,7 +135,12 @@ export function generateFighter() {
       HUMAN_WOODCUTTER,
       HUMAN_ROBBER,
     ]),
-    equipment: getRandomFighterEquipment(),
+    equipment: {
+      head: randomFighterArmor(),
+      body: randomFighterArmor(),
+      weapon: randomFighterWeapon(),
+      shield: getRandomItem([null, randomShield()]),
+    },
     bodyParts: newBodyParts(),
     exhaustion: 0,
     maxExhaustion: getRandomInt(5) + 15,
@@ -133,36 +151,84 @@ export function generateFighter() {
   }
 }
 
-function getRandomGoblinEquipment() {
+function randomShield() {
+  return {
+    type: SHIELD,
+    name: getRandomItem([
+      'Small Buckler',
+      'Large Buckler',
+      'Tower Shield',
+      'War Shield',
+      'Kite Shield',
+      'Aspis',
+      'Studded Shield',
+      'Heater',
+    ]),
+    condition: getRandomItem([
+      CONDITION_WORN,
+      CONDITION_FAIR,
+      CONDITION_FAIR,
+      CONDITION_FAIR,
+      CONDITION_GOOD,
+    ]),
+    quality: getRandomItem([
+      QUALITY_LOW,
+      QUALITY_NORMAL,
+      QUALITY_NORMAL,
+      QUALITY_NORMAL,
+      QUALITY_HIGH,
+    ]),
+  }
+}
+
+function randomFighterArmor() {
   return getRandomItem([
     {
-      head: null,
-      body: null,
-      weapon: randomGoblinWeapon(),
-      shield: null,
-    },
-    {
-      head: null,
-      body: LEATHER,
-      weapon: randomGoblinWeapon(),
-      shield: null,
+      type: getRandomItem([
+        ARMOR_TYPE_LEATHER,
+        ARMOR_TYPE_LEATHER,
+        ARMOR_TYPE_LEATHER,
+        ARMOR_TYPE_LEATHER,
+        ARMOR_TYPE_LEATHER,
+        ARMOR_TYPE_LEATHER,
+        ARMOR_TYPE_LEATHER,
+        ARMOR_TYPE_LEATHER,
+        ARMOR_TYPE_CHAINMAIL,
+        ARMOR_TYPE_CHAINMAIL,
+        ARMOR_TYPE_CHAINMAIL,
+        ARMOR_TYPE_CHAINMAIL,
+        ARMOR_TYPE_PLATE,
+      ]),
+      condition: getRandomItem([
+        CONDITION_GOOD,
+        CONDITION_FAIR,
+        CONDITION_WORN,
+      ]),
+      quality: getRandomItem([QUALITY_LOW, QUALITY_NORMAL, QUALITY_HIGH]),
     },
   ])
 }
 
-function getRandomFighterEquipment() {
+function randomGoblinArmor() {
   return getRandomItem([
+    null,
+    null,
+    null,
+    null,
     {
-      head: LEATHER,
-      body: LEATHER,
-      weapon: randomFighterWeapon(),
-      shield: getRandomItem([null, SHIELD]),
-    },
-    {
-      head: CHAINMAIL,
-      body: CHAINMAIL,
-      weapon: randomFighterWeapon(),
-      shield: getRandomItem([null, SHIELD]),
+      type: ARMOR_TYPE_LEATHER,
+      condition: getRandomItem([
+        CONDITION_WORN,
+        CONDITION_WORN,
+        CONDITION_WORN,
+        CONDITION_FAIR,
+      ]),
+      quality: getRandomItem([
+        QUALITY_LOW,
+        QUALITY_LOW,
+        QUALITY_LOW,
+        QUALITY_NORMAL,
+      ]),
     },
   ])
 }
