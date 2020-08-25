@@ -43,151 +43,610 @@ export function getDodgeType() {
   ])
 }
 
-export function getDamageType(swingType, damageType) {
-  switch (swingType) {
-    case SWING:
-      switch (damageType) {
-        case SLASH:
-          return getRandomItem([
-            'Cut Into',
-            'Slashed',
-            'Gashed',
-            'Slit',
-            'Lacerated',
-            'Hacked',
-            'Cleaved',
-            'Split Open',
-            'Carved',
-            'Hacked',
-          ])
-        case BLUNT:
-          return getRandomItem([
-            'Fractured',
-            'Smashed Into',
-            'Crushed',
-            'Rammed Into',
-            'Struck',
-            'Pounded',
-            'Cracked',
-            'Split',
-            'Broke',
-            'Shattered',
-            'Splintered',
-          ])
+export function getDamageType({ bodyPart, swingType, attackType, damageType }) {
+  return getRandomItem(
+    damageTypes.filter(
+      ({ bodyParts, swingTypes, attackTypes, damageTypes }) => {
+        return (
+          bodyParts.includes(bodyPart) &&
+          attackTypes.includes(attackType) &&
+          damageTypes.includes(damageType) &&
+          swingTypes.includes(swingType)
+        )
       }
-      break
-    case THRUST:
-      switch (damageType) {
-        case PIERCE:
-          return getRandomItem([
-            'Punctured',
-            'Perforated',
-            'Ruptured',
-            'Pierced',
-            'Impaled',
-            'Gored',
-          ])
-        case BLUNT:
-          return getRandomItem([
-            'Fractured',
-            'Smashed Into',
-            'Crushed',
-            'Rammed Into',
-            'Struck',
-            'Hit',
-            'Pounded',
-            'Cracked',
-            'Split',
-            'Broke',
-            'Shattered',
-            'Splintered',
-          ])
-      }
-  }
+    )
+  ).text
 }
 
-export function getHitAdjective(attackType) {
-  switch (attackType) {
-    case STRONG_ATTACK:
-      return getRandomItem([
-        'a violent',
-        'a ferocious',
-        'a powerful',
-        'an intense',
-        'a strong',
-        'a hefty',
-        'a vigorous',
-        'a high-powered',
-        'a thunderous',
-        'a stiff',
-        'a mighty',
-      ])
-    case QUICK_ATTACK:
-      return getRandomItem([
-        'a quick',
-        'a fast',
-        'a swift',
-        'a speedy',
-        'a rapid',
-        'a quick, blurring',
-      ])
-    case WILD_ATTACK:
-      return getRandomItem([
-        'a wild',
-        'an unbalanced',
-        'an untamed',
-        'an intimidating',
-        'a blustery',
-        'a tempestuous',
-        'a stormy',
-        'an out of control',
-        'an unrestrained',
-        'a chaotic',
-        'a riotous',
-      ])
-    case NORMAL_ATTACK:
-      return getRandomItem([
-        'a solid',
-        'a trained',
-        'a firm',
-        'a substantial',
-        'a tentative',
-        'a studied',
-        'a deliberate',
-        'a calculated',
-      ])
-  }
+const damageTypes = [
+  {
+    text: 'Cut Into',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [NORMAL_ATTACK, STRONG_ATTACK, QUICK_ATTACK, WILD_ATTACK],
+    damageTypes: [SLASH],
+    swingTypes: [SWING],
+  },
+  {
+    text: 'Slashed',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [NORMAL_ATTACK, STRONG_ATTACK, QUICK_ATTACK, WILD_ATTACK],
+    damageTypes: [SLASH],
+    swingTypes: [SWING],
+  },
+  {
+    text: 'Gashed',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [NORMAL_ATTACK, STRONG_ATTACK, QUICK_ATTACK, WILD_ATTACK],
+    damageTypes: [SLASH],
+    swingTypes: [SWING],
+  },
+  {
+    text: 'Slit',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [NORMAL_ATTACK, STRONG_ATTACK, QUICK_ATTACK, WILD_ATTACK],
+    damageTypes: [SLASH],
+    swingTypes: [SWING],
+  },
+  {
+    text: 'Lacerated',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [NORMAL_ATTACK, STRONG_ATTACK, QUICK_ATTACK, WILD_ATTACK],
+    damageTypes: [SLASH],
+    swingTypes: [SWING],
+  },
+  {
+    text: 'Hacked',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [NORMAL_ATTACK, STRONG_ATTACK, QUICK_ATTACK, WILD_ATTACK],
+    damageTypes: [SLASH],
+    swingTypes: [SWING],
+  },
+  {
+    text: 'Cleaved',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [NORMAL_ATTACK, STRONG_ATTACK, QUICK_ATTACK, WILD_ATTACK],
+    damageTypes: [SLASH],
+    swingTypes: [SWING],
+  },
+  {
+    text: 'Split Open',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [NORMAL_ATTACK, STRONG_ATTACK, QUICK_ATTACK, WILD_ATTACK],
+    damageTypes: [SLASH],
+    swingTypes: [SWING],
+  },
+  {
+    text: 'Carved',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [NORMAL_ATTACK, STRONG_ATTACK, QUICK_ATTACK, WILD_ATTACK],
+    damageTypes: [SLASH],
+    swingTypes: [SWING],
+  },
+  {
+    text: 'Hacked',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [NORMAL_ATTACK, STRONG_ATTACK, QUICK_ATTACK, WILD_ATTACK],
+    damageTypes: [SLASH],
+    swingTypes: [SWING],
+  },
+  {
+    text: 'Punctured',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [NORMAL_ATTACK, STRONG_ATTACK, QUICK_ATTACK, WILD_ATTACK],
+    damageTypes: [PIERCE],
+    swingTypes: [THRUST],
+  },
+  {
+    text: 'Perforated',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [NORMAL_ATTACK, STRONG_ATTACK, QUICK_ATTACK, WILD_ATTACK],
+    damageTypes: [PIERCE],
+    swingTypes: [THRUST],
+  },
+  {
+    text: 'Ruptured',
+    bodyParts: [BODY],
+    attackTypes: [NORMAL_ATTACK, STRONG_ATTACK, QUICK_ATTACK, WILD_ATTACK],
+    damageTypes: [PIERCE],
+    swingTypes: [THRUST],
+  },
+  {
+    text: 'Pierced',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [NORMAL_ATTACK, STRONG_ATTACK, QUICK_ATTACK, WILD_ATTACK],
+    damageTypes: [PIERCE],
+    swingTypes: [THRUST],
+  },
+  {
+    text: 'Impaled',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [NORMAL_ATTACK, STRONG_ATTACK, QUICK_ATTACK, WILD_ATTACK],
+    damageTypes: [PIERCE],
+    swingTypes: [THRUST],
+  },
+  {
+    text: 'Gored',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [NORMAL_ATTACK, STRONG_ATTACK, QUICK_ATTACK, WILD_ATTACK],
+    damageTypes: [PIERCE],
+    swingTypes: [THRUST],
+  },
+  {
+    text: 'Fractured',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM],
+    attackTypes: [NORMAL_ATTACK, STRONG_ATTACK, QUICK_ATTACK, WILD_ATTACK],
+    damageTypes: [BLUNT],
+    swingTypes: [THRUST],
+  },
+  {
+    text: 'Smashed It Into',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [NORMAL_ATTACK, STRONG_ATTACK, QUICK_ATTACK, WILD_ATTACK],
+    damageTypes: [BLUNT],
+    swingTypes: [THRUST, SWING],
+  },
+  {
+    text: 'Crushed',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [NORMAL_ATTACK, STRONG_ATTACK, QUICK_ATTACK, WILD_ATTACK],
+    damageTypes: [BLUNT],
+    swingTypes: [THRUST, SWING],
+  },
+  {
+    text: 'Rammed It Into',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [NORMAL_ATTACK, STRONG_ATTACK, QUICK_ATTACK, WILD_ATTACK],
+    damageTypes: [BLUNT],
+    swingTypes: [THRUST, SWING],
+  },
+  {
+    text: 'Struck',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [NORMAL_ATTACK, STRONG_ATTACK, QUICK_ATTACK, WILD_ATTACK],
+    damageTypes: [BLUNT],
+    swingTypes: [THRUST, SWING],
+  },
+  {
+    text: 'Hit',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [NORMAL_ATTACK, STRONG_ATTACK, QUICK_ATTACK, WILD_ATTACK],
+    damageTypes: [BLUNT],
+    swingTypes: [THRUST, SWING],
+  },
+  {
+    text: 'Pounded',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD],
+    attackTypes: [NORMAL_ATTACK, STRONG_ATTACK, QUICK_ATTACK, WILD_ATTACK],
+    damageTypes: [BLUNT],
+    swingTypes: [THRUST, SWING],
+  },
+  {
+    text: 'Cracked',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD],
+    attackTypes: [NORMAL_ATTACK, STRONG_ATTACK, QUICK_ATTACK, WILD_ATTACK],
+    damageTypes: [BLUNT],
+    swingTypes: [THRUST, SWING],
+  },
+  {
+    text: 'Split',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD],
+    attackTypes: [NORMAL_ATTACK, STRONG_ATTACK, QUICK_ATTACK, WILD_ATTACK],
+    damageTypes: [BLUNT],
+    swingTypes: [THRUST, SWING],
+  },
+  {
+    text: 'Broke',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM],
+    attackTypes: [NORMAL_ATTACK, STRONG_ATTACK, QUICK_ATTACK, WILD_ATTACK],
+    damageTypes: [BLUNT],
+    swingTypes: [THRUST, SWING],
+  },
+  {
+    text: 'Shattered',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM],
+    attackTypes: [NORMAL_ATTACK, STRONG_ATTACK, QUICK_ATTACK, WILD_ATTACK],
+    damageTypes: [BLUNT],
+    swingTypes: [THRUST, SWING],
+  },
+  {
+    text: 'Splintered',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM],
+    attackTypes: [NORMAL_ATTACK, STRONG_ATTACK, QUICK_ATTACK, WILD_ATTACK],
+    damageTypes: [BLUNT],
+    swingTypes: [THRUST, SWING],
+  },
+]
+
+export function getHitAdjective({
+  bodyPart,
+  swingType,
+  attackType,
+  damageType,
+}) {
+  return getRandomItem(
+    hitAdjectives.filter(
+      ({ bodyParts, swingTypes, attackTypes, damageTypes }) => {
+        return (
+          (bodyParts.includes(bodyPart) || !bodyPart) &&
+          attackTypes.includes(attackType) &&
+          damageTypes.includes(damageType) &&
+          swingTypes.includes(swingType)
+        )
+      }
+    )
+  ).text
 }
 
-export function getHitType(swingType, attackType) {
-  const adjective = getHitAdjective(attackType)
-  switch (swingType) {
-    case SWING:
-      return getRandomItem([
-        `took ${adjective} swing at`,
-        `let loose ${adjective} swipe at`,
-        `took ${adjective} swipe at`,
-        `unleashed ${adjective} attack on`,
-        `loosed ${adjective} attack on`,
-        `stole ${adjective} attack on`,
-        `lashed out at`,
-        `took ${adjective} strike at`,
-        `took ${adjective} swipe at`,
-      ])
-    case THRUST:
-      return getRandomItem([
-        `took ${adjective} stab at`,
-        `unleashed ${adjective} lunge on`,
-        `took ${adjective} thrust at`,
-        `loosed ${adjective} jab at`,
-        `unleashed a flurry of thrusts at`,
-        `took ${adjective} stab at`,
-        `lashed out at`,
-        `stole ${adjective} attack on`,
-        `took ${adjective} stab at`,
-      ])
-  }
+const hitAdjectives = [
+  {
+    text: 'a violent',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [STRONG_ATTACK],
+    damageTypes: [SLASH, BLUNT, PIERCE],
+    swingTypes: [SWING, THRUST],
+  },
+  {
+    text: 'a ferocious',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [STRONG_ATTACK],
+    damageTypes: [SLASH, BLUNT, PIERCE],
+    swingTypes: [SWING, THRUST],
+  },
+  {
+    text: 'a powerful',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [STRONG_ATTACK],
+    damageTypes: [SLASH, BLUNT, PIERCE],
+    swingTypes: [SWING, THRUST],
+  },
+  {
+    text: 'an intense',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [STRONG_ATTACK],
+    damageTypes: [SLASH, BLUNT, PIERCE],
+    swingTypes: [SWING, THRUST],
+  },
+  {
+    text: 'a strong',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [STRONG_ATTACK],
+    damageTypes: [SLASH, BLUNT, PIERCE],
+    swingTypes: [SWING, THRUST],
+  },
+  {
+    text: 'a hefty',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [STRONG_ATTACK],
+    damageTypes: [SLASH, BLUNT, PIERCE],
+    swingTypes: [SWING, THRUST],
+  },
+  {
+    text: 'a vigorous',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [STRONG_ATTACK],
+    damageTypes: [SLASH, BLUNT, PIERCE],
+    swingTypes: [SWING, THRUST],
+  },
+  {
+    text: 'a high-powered',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [STRONG_ATTACK],
+    damageTypes: [SLASH, BLUNT, PIERCE],
+    swingTypes: [SWING, THRUST],
+  },
+  {
+    text: 'a thunderous',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [STRONG_ATTACK],
+    damageTypes: [SLASH, BLUNT, PIERCE],
+    swingTypes: [SWING, THRUST],
+  },
+  {
+    text: 'a stiff',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [STRONG_ATTACK],
+    damageTypes: [SLASH, BLUNT, PIERCE],
+    swingTypes: [SWING, THRUST],
+  },
+  {
+    text: 'a mighty',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [STRONG_ATTACK],
+    damageTypes: [SLASH, BLUNT, PIERCE],
+    swingTypes: [SWING, THRUST],
+  },
+  {
+    text: 'a quick',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [QUICK_ATTACK],
+    damageTypes: [SLASH, BLUNT, PIERCE],
+    swingTypes: [SWING, THRUST],
+  },
+  {
+    text: 'a fast',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [QUICK_ATTACK],
+    damageTypes: [SLASH, BLUNT, PIERCE],
+    swingTypes: [SWING, THRUST],
+  },
+  {
+    text: 'a swift',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [QUICK_ATTACK],
+    damageTypes: [SLASH, BLUNT, PIERCE],
+    swingTypes: [SWING, THRUST],
+  },
+  {
+    text: 'a speedy',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [QUICK_ATTACK],
+    damageTypes: [SLASH, BLUNT, PIERCE],
+    swingTypes: [SWING, THRUST],
+  },
+  {
+    text: 'a rapid',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [QUICK_ATTACK],
+    damageTypes: [SLASH, BLUNT, PIERCE],
+    swingTypes: [SWING, THRUST],
+  },
+  {
+    text: 'a quick, blurring',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [QUICK_ATTACK],
+    damageTypes: [SLASH, BLUNT, PIERCE],
+    swingTypes: [SWING, THRUST],
+  },
+
+  {
+    text: 'a wild',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [WILD_ATTACK],
+    damageTypes: [SLASH, BLUNT, PIERCE],
+    swingTypes: [SWING, THRUST],
+  },
+  {
+    text: 'an unbalanced',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [WILD_ATTACK],
+    damageTypes: [SLASH, BLUNT, PIERCE],
+    swingTypes: [SWING, THRUST],
+  },
+  {
+    text: 'an untamed',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [WILD_ATTACK],
+    damageTypes: [SLASH, BLUNT, PIERCE],
+    swingTypes: [SWING, THRUST],
+  },
+  {
+    text: 'an intimidating',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [WILD_ATTACK],
+    damageTypes: [SLASH, BLUNT, PIERCE],
+    swingTypes: [SWING, THRUST],
+  },
+  {
+    text: 'a blustery',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [WILD_ATTACK],
+    damageTypes: [SLASH, BLUNT, PIERCE],
+    swingTypes: [SWING, THRUST],
+  },
+  {
+    text: 'a tempestuous',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [WILD_ATTACK],
+    damageTypes: [SLASH, BLUNT, PIERCE],
+    swingTypes: [SWING, THRUST],
+  },
+  {
+    text: 'a stormy',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [WILD_ATTACK],
+    damageTypes: [SLASH, BLUNT, PIERCE],
+    swingTypes: [SWING, THRUST],
+  },
+  {
+    text: 'an out of control',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [WILD_ATTACK],
+    damageTypes: [SLASH, BLUNT, PIERCE],
+    swingTypes: [SWING, THRUST],
+  },
+  {
+    text: 'an unrestrained',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [WILD_ATTACK],
+    damageTypes: [SLASH, BLUNT, PIERCE],
+    swingTypes: [SWING, THRUST],
+  },
+  {
+    text: 'a chaotic',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [WILD_ATTACK],
+    damageTypes: [SLASH, BLUNT, PIERCE],
+    swingTypes: [SWING, THRUST],
+  },
+  {
+    text: 'a riotous',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [WILD_ATTACK],
+    damageTypes: [SLASH, BLUNT, PIERCE],
+    swingTypes: [SWING, THRUST],
+  },
+
+  {
+    text: 'a solid',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [NORMAL_ATTACK],
+    damageTypes: [SLASH, BLUNT, PIERCE],
+    swingTypes: [SWING, THRUST],
+  },
+  {
+    text: 'a trained',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [NORMAL_ATTACK],
+    damageTypes: [SLASH, BLUNT, PIERCE],
+    swingTypes: [SWING, THRUST],
+  },
+  {
+    text: 'a firm',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [NORMAL_ATTACK],
+    damageTypes: [SLASH, BLUNT, PIERCE],
+    swingTypes: [SWING, THRUST],
+  },
+  {
+    text: 'a substantial',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [NORMAL_ATTACK],
+    damageTypes: [SLASH, BLUNT, PIERCE],
+    swingTypes: [SWING, THRUST],
+  },
+  {
+    text: 'a tentative',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [NORMAL_ATTACK],
+    damageTypes: [SLASH, BLUNT, PIERCE],
+    swingTypes: [SWING, THRUST],
+  },
+  {
+    text: 'a studied',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [NORMAL_ATTACK],
+    damageTypes: [SLASH, BLUNT, PIERCE],
+    swingTypes: [SWING, THRUST],
+  },
+  {
+    text: 'a deliberate',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [NORMAL_ATTACK],
+    damageTypes: [SLASH, BLUNT, PIERCE],
+    swingTypes: [SWING, THRUST],
+  },
+  {
+    text: 'a calculated',
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [NORMAL_ATTACK],
+    damageTypes: [SLASH, BLUNT, PIERCE],
+    swingTypes: [SWING, THRUST],
+  },
+]
+
+export function getHitType({ bodyPart, swingType, attackType, damageType }) {
+  const adjective = getHitAdjective({
+    bodyPart,
+    swingType,
+    attackType,
+    damageType,
+  })
+  return getRandomItem(
+    hitTypes.filter(({ bodyParts, swingTypes, attackTypes, damageTypes }) => {
+      return (
+        (bodyParts.includes(bodyPart) || !bodyPart) &&
+        attackTypes.includes(attackType) &&
+        damageTypes.includes(damageType) &&
+        swingTypes.includes(swingType)
+      )
+    })
+  ).text(adjective)
 }
+
+const hitTypes = [
+  {
+    text: adjective => `took ${adjective} swing at`,
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [NORMAL_ATTACK, STRONG_ATTACK, QUICK_ATTACK, WILD_ATTACK],
+    damageTypes: [SLASH, BLUNT, PIERCE],
+    swingTypes: [SWING],
+  },
+  {
+    text: adjective => `let loose ${adjective} swipe at`,
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [NORMAL_ATTACK, STRONG_ATTACK, QUICK_ATTACK, WILD_ATTACK],
+    damageTypes: [SLASH, BLUNT, PIERCE],
+    swingTypes: [SWING],
+  },
+  {
+    text: adjective => `unleashed ${adjective} attack on`,
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [NORMAL_ATTACK, STRONG_ATTACK, QUICK_ATTACK, WILD_ATTACK],
+    damageTypes: [SLASH, BLUNT, PIERCE],
+    swingTypes: [SWING, THRUST],
+  },
+  {
+    text: adjective => `loosed ${adjective} attack on`,
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [NORMAL_ATTACK, STRONG_ATTACK, QUICK_ATTACK, WILD_ATTACK],
+    damageTypes: [SLASH, BLUNT, PIERCE],
+    swingTypes: [SWING, THRUST],
+  },
+  {
+    text: adjective => `stole ${adjective} attack on`,
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [NORMAL_ATTACK, STRONG_ATTACK, QUICK_ATTACK, WILD_ATTACK],
+    damageTypes: [SLASH, BLUNT, PIERCE],
+    swingTypes: [SWING, THRUST],
+  },
+  {
+    text: () => `lashed out at`,
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [NORMAL_ATTACK, STRONG_ATTACK, QUICK_ATTACK, WILD_ATTACK],
+    damageTypes: [SLASH, BLUNT, PIERCE],
+    swingTypes: [SWING, THRUST],
+  },
+  {
+    text: adjective => `took ${adjective} strike at`,
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [NORMAL_ATTACK, STRONG_ATTACK, QUICK_ATTACK, WILD_ATTACK],
+    damageTypes: [SLASH, BLUNT, PIERCE],
+    swingTypes: [SWING, THRUST],
+  },
+  {
+    text: adjective => `took ${adjective} swipe at`,
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [NORMAL_ATTACK, STRONG_ATTACK, QUICK_ATTACK, WILD_ATTACK],
+    damageTypes: [SLASH, BLUNT],
+    swingTypes: [SWING],
+  },
+
+  {
+    text: adjective => `took ${adjective} stab at`,
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [NORMAL_ATTACK, STRONG_ATTACK, QUICK_ATTACK, WILD_ATTACK],
+    damageTypes: [SLASH, BLUNT, PIERCE],
+    swingTypes: [THRUST],
+  },
+  {
+    text: adjective => `unleashed ${adjective} lunge on`,
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [NORMAL_ATTACK, STRONG_ATTACK, QUICK_ATTACK, WILD_ATTACK],
+    damageTypes: [SLASH, BLUNT, PIERCE],
+    swingTypes: [THRUST],
+  },
+  {
+    text: adjective => `took ${adjective} thrust at`,
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [NORMAL_ATTACK, STRONG_ATTACK, QUICK_ATTACK, WILD_ATTACK],
+    damageTypes: [SLASH, BLUNT, PIERCE],
+    swingTypes: [THRUST],
+  },
+  {
+    text: adjective => `loosed ${adjective} jab at`,
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [NORMAL_ATTACK, STRONG_ATTACK, QUICK_ATTACK, WILD_ATTACK],
+    damageTypes: [SLASH, BLUNT, PIERCE],
+    swingTypes: [THRUST],
+  },
+  {
+    text: () => `unleashed a flurry of thrusts at`,
+    bodyParts: [LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, HEAD, BODY],
+    attackTypes: [QUICK_ATTACK, WILD_ATTACK],
+    damageTypes: [SLASH, BLUNT, PIERCE],
+    swingTypes: [THRUST],
+  },
+]
 
 export function getBodyPart({ bodyPart, swingType, attackType, damageType }) {
   return getRandomItem(
@@ -221,7 +680,7 @@ const bodyParts = [
     text: 'Knee',
     bodyParts: [LEFT_LEG, RIGHT_LEG],
     attackTypes: [NORMAL_ATTACK, STRONG_ATTACK, QUICK_ATTACK, WILD_ATTACK],
-    damageTypes: [SLASH, BLUNT, PIERCE],
+    damageTypes: [BLUNT],
     swingTypes: [SWING, THRUST],
   },
   {
@@ -249,21 +708,21 @@ const bodyParts = [
     text: 'Ankle',
     bodyParts: [LEFT_LEG, RIGHT_LEG],
     attackTypes: [NORMAL_ATTACK, STRONG_ATTACK, QUICK_ATTACK, WILD_ATTACK],
-    damageTypes: [SLASH, BLUNT, PIERCE],
+    damageTypes: [BLUNT],
     swingTypes: [SWING, THRUST],
   },
   {
     text: 'Arm',
     bodyParts: [LEFT_ARM, RIGHT_ARM],
     attackTypes: [NORMAL_ATTACK, STRONG_ATTACK, QUICK_ATTACK, WILD_ATTACK],
-    damageTypes: [SLASH, BLUNT, PIERCE],
+    damageTypes: [SLASH, BLUNT],
     swingTypes: [SWING, THRUST],
   },
   {
     text: 'Wrist',
     bodyParts: [LEFT_ARM, RIGHT_ARM],
     attackTypes: [NORMAL_ATTACK, STRONG_ATTACK, QUICK_ATTACK, WILD_ATTACK],
-    damageTypes: [SLASH, BLUNT, PIERCE],
+    damageTypes: [SLASH, BLUNT],
     swingTypes: [SWING, THRUST],
   },
   {
@@ -277,21 +736,21 @@ const bodyParts = [
     text: 'Upper Arm',
     bodyParts: [LEFT_ARM, RIGHT_ARM],
     attackTypes: [NORMAL_ATTACK, STRONG_ATTACK, QUICK_ATTACK, WILD_ATTACK],
-    damageTypes: [SLASH, BLUNT, PIERCE],
+    damageTypes: [SLASH, BLUNT],
     swingTypes: [SWING, THRUST],
   },
   {
     text: 'Lower Arm',
     bodyParts: [LEFT_ARM, RIGHT_ARM],
     attackTypes: [NORMAL_ATTACK, STRONG_ATTACK, QUICK_ATTACK, WILD_ATTACK],
-    damageTypes: [SLASH, BLUNT, PIERCE],
+    damageTypes: [SLASH, BLUNT],
     swingTypes: [SWING, THRUST],
   },
   {
     text: 'Elbow',
     bodyParts: [LEFT_ARM, RIGHT_ARM],
     attackTypes: [NORMAL_ATTACK, STRONG_ATTACK, QUICK_ATTACK, WILD_ATTACK],
-    damageTypes: [SLASH, BLUNT, PIERCE],
+    damageTypes: [SLASH, BLUNT],
     swingTypes: [SWING, THRUST],
   },
   {
@@ -305,7 +764,7 @@ const bodyParts = [
     text: 'Skull',
     bodyParts: [HEAD],
     attackTypes: [NORMAL_ATTACK, STRONG_ATTACK, QUICK_ATTACK, WILD_ATTACK],
-    damageTypes: [SLASH, BLUNT, PIERCE],
+    damageTypes: [BLUNT],
     swingTypes: [SWING, THRUST],
   },
   {
@@ -319,7 +778,7 @@ const bodyParts = [
     text: 'Throat',
     bodyParts: [HEAD],
     attackTypes: [NORMAL_ATTACK, STRONG_ATTACK, QUICK_ATTACK, WILD_ATTACK],
-    damageTypes: [SLASH, BLUNT, PIERCE],
+    damageTypes: [SLASH, PIERCE],
     swingTypes: [SWING, THRUST],
   },
   {
@@ -340,14 +799,14 @@ const bodyParts = [
     text: 'Stomach',
     bodyParts: [BODY],
     attackTypes: [NORMAL_ATTACK, STRONG_ATTACK, QUICK_ATTACK, WILD_ATTACK],
-    damageTypes: [SLASH, BLUNT, PIERCE],
+    damageTypes: [SLASH, PIERCE],
     swingTypes: [SWING, THRUST],
   },
   {
     text: 'Clavicle',
     bodyParts: [BODY],
     attackTypes: [NORMAL_ATTACK, STRONG_ATTACK, QUICK_ATTACK, WILD_ATTACK],
-    damageTypes: [SLASH, BLUNT, PIERCE],
+    damageTypes: [BLUNT],
     swingTypes: [SWING, THRUST],
   },
   {
@@ -361,7 +820,7 @@ const bodyParts = [
     text: 'Abdomen',
     bodyParts: [BODY],
     attackTypes: [NORMAL_ATTACK, STRONG_ATTACK, QUICK_ATTACK, WILD_ATTACK],
-    damageTypes: [SLASH, BLUNT, PIERCE],
+    damageTypes: [SLASH, PIERCE],
     swingTypes: [SWING, THRUST],
   },
   {
@@ -389,25 +848,11 @@ const bodyParts = [
     text: 'Belly',
     bodyParts: [BODY],
     attackTypes: [NORMAL_ATTACK, STRONG_ATTACK, QUICK_ATTACK, WILD_ATTACK],
-    damageTypes: [SLASH, BLUNT, PIERCE],
+    damageTypes: [SLASH, PIERCE],
     swingTypes: [SWING, THRUST],
   },
   {
     text: 'Back',
-    bodyParts: [BODY],
-    attackTypes: [NORMAL_ATTACK, STRONG_ATTACK, QUICK_ATTACK, WILD_ATTACK],
-    damageTypes: [SLASH, BLUNT, PIERCE],
-    swingTypes: [SWING, THRUST],
-  },
-  {
-    text: 'Upper Back',
-    bodyParts: [BODY],
-    attackTypes: [NORMAL_ATTACK, STRONG_ATTACK, QUICK_ATTACK, WILD_ATTACK],
-    damageTypes: [SLASH, BLUNT, PIERCE],
-    swingTypes: [SWING, THRUST],
-  },
-  {
-    text: 'Lower Back',
     bodyParts: [BODY],
     attackTypes: [NORMAL_ATTACK, STRONG_ATTACK, QUICK_ATTACK, WILD_ATTACK],
     damageTypes: [SLASH, BLUNT, PIERCE],

@@ -6,7 +6,9 @@
       <span :class="getNameColorClass(attacker.team)"
         >{{ attacker.name }}
       </span>
-      <span class="">{{ getHitType(this.swingType, this.attackType) }} </span>
+      <span class=""
+        >{{ getHitType({ bodyPart, swingType, attackType, damageType }) }}
+      </span>
       <span :class="getNameColorClass(defender.team)"
         >{{ defender.name }}
       </span>
@@ -22,7 +24,9 @@
       <span :class="getNameColorClass(attacker.team)"
         >{{ attacker.name }}
       </span>
-      <span class="">{{ getHitType(this.swingType, this.attackType) }} </span>
+      <span class=""
+        >{{ getHitType({ bodyPart, swingType, attackType, damageType }) }}
+      </span>
       <span :class="getNameColorClass(defender.team)"
         >{{ defender.name }}
       </span>
@@ -39,7 +43,9 @@
       <span :class="getNameColorClass(attacker.team)"
         >{{ attacker.name }}
       </span>
-      <span class="">{{ getHitType(this.swingType, this.attackType) }} </span>
+      <span class=""
+        >{{ getHitType({ bodyPart, swingType, attackType, damageType }) }}
+      </span>
       <span :class="getNameColorClass(defender.team)"
         >{{ defender.name }}
       </span>
@@ -71,6 +77,7 @@ export default {
     'defender',
     'attackType',
     'swingType',
+    'damageType',
     'defenseType',
     'bodyPart',
   ],

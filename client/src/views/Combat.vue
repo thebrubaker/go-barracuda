@@ -44,10 +44,6 @@
       </el-col>
     </el-row>
     <el-row class="bg-gray-700 shadow-inner overflow-scroll flex-1 relative">
-      <div
-        style="background: linear-gradient(rgb(30 30 30 / 0%) 0%, rgb(30, 30, 30) 100%);"
-        class="h-full absolute top-0 bottom-0 left-0 right-0"
-      ></div>
       <el-col
         class="log-container theme-dark flex flex-col-reverse text-white justify-end px-4 py-2 text-sm"
         :span="24"
