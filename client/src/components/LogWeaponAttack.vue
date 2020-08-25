@@ -2,9 +2,9 @@
   <div class="text-white">
     <span class="text-gray-400">[{{ turn }}] </span>
     <span class="text-orange-300">COMBAT </span>
-    <span class="text-yellow-100">{{ attacker.name }} </span>
+    <span :class="getNameColorClass(attacker.team)">{{ attacker.name }} </span>
     <span class="">{{ getHitType(this.swingType, this.attackType) }} </span>
-    <span class="text-yellow-100">{{ defender.name }} </span>
+    <span :class="getNameColorClass(defender.team)">{{ defender.name }} </span>
     <span class="">with their </span>
     <span class="text-orange-200">{{ attacker.equipment.weapon.name }} </span>
     <span class="">and </span>
@@ -12,12 +12,15 @@
       >{{ getDamageType(this.swingType, this.damageType) }}
     </span>
     <span class="">their </span>
-    <span class="text-blue-300">{{ getBodyPart(bodyPart) }}.</span>
+    <span class="text-blue-300"
+      >{{ getBodyPart({ bodyPart, swingType, attackType, damageType }) }}.</span
+    >
   </div>
 </template>
 
 <script>
 import { getHitType, getDamageType, getBodyPart } from '../game/log'
+import { getNameColorClass } from '../utils/combat'
 
 export default {
   components: {},
@@ -41,6 +44,7 @@ export default {
     getHitType,
     getDamageType,
     getBodyPart,
+    getNameColorClass,
   },
 }
 </script>

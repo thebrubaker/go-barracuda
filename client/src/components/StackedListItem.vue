@@ -1,6 +1,10 @@
 <template>
-  <li>
-    <a
+  <div class="relative cursor-pointer">
+    <span
+      v-if="selected"
+      class="w-1 h-full absolute left-0 top-0 bg-blue-500"
+    ></span>
+    <div
       href="#"
       class="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"
     >
@@ -79,8 +83,8 @@
           </div>
         </div>
       </div>
-    </a>
-  </li>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -102,6 +106,11 @@ export default {
     unit: {
       required: true,
       type: Object,
+    },
+    selected: {
+      required: false,
+      type: Boolean,
+      default: false,
     },
   },
   computed: {

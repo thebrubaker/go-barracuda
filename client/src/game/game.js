@@ -66,7 +66,7 @@ function createGameState() {
 export function nextTick() {
   // Set up next in initiative, and pull out an attacker and defender
   nextInitiative((attacker, defender) => {
-    console.log({ attacker: attacker.name, defender: defender.name })
+    console.log({ attacker, defender })
     if (!defender) {
       console.log('No Defender.')
       attacker.exhaustion = Math.max(0, attacker.exhaustion - 2)

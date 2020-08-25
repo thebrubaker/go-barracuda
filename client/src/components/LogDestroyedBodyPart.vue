@@ -5,12 +5,13 @@
     <span class="">The </span>
     <span class="text-blue-300">{{ getBodyPart(bodyPart) }} </span>
     <span class="">of </span>
-    <span class="text-yellow-100">{{ defender.name }} </span>
+    <span :class="getNameColorClass(defender.team)">{{ defender.name }} </span>
     <span class="">{{ getType() }}.</span>
   </div>
 </template>
 
 <script>
+import { getNameColorClass } from '../utils/combat'
 import { getRandomItem } from '../game/utils'
 import { LEFT_ARM, RIGHT_ARM, LEFT_LEG, RIGHT_LEG } from '../game/units'
 export default {
@@ -30,6 +31,7 @@ export default {
     }
   },
   methods: {
+    getNameColorClass,
     getType() {
       return getRandomItem(this.types)
     },

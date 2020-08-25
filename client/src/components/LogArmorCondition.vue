@@ -3,7 +3,7 @@
     <span class="text-gray-400">[{{ turn }}] </span>
     <span class="text-orange-300">INFO </span>
     <span>The last attack on </span>
-    <span class="text-yellow-100">{{ defender.name }} </span>
+    <span :class="getNameColorClass(defender)">{{ defender.name }} </span>
     <span class="">left their armor looking worn.</span>
   </div>
 </template>
@@ -23,7 +23,15 @@ export default {
   data() {
     return {}
   },
-  methods: {},
+  methods: {
+    getNameColorClass(unit) {
+      if (unit.team === 1) {
+        return { 'text-green-400': true }
+      } else {
+        return { 'text-indigo-500': true }
+      }
+    },
+  },
 }
 </script>
 

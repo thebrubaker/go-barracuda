@@ -2,9 +2,9 @@
   <div class="text-white">
     <span class="text-gray-400">[{{ turn }}] </span>
     <span class="text-orange-300">COMBAT </span>
-    <span class="text-yellow-100">{{ attacker.name }} </span>
+    <span :class="getNameColorClass(attacker.team)">{{ attacker.name }} </span>
     <span class="">{{ getHitType() }} </span>
-    <span class="text-yellow-100">{{ defender.name }} </span>
+    <span :class="getNameColorClass(defender.team)">{{ defender.name }} </span>
     <span class="">with a </span>
     <span class="text-orange-300">{{ attacker.equipment.weapon.name }} </span>
     <span class="">but their armor stopped the attack. </span>
@@ -12,6 +12,7 @@
 </template>
 
 <script>
+import { getNameColorClass } from '../utils/combat'
 import { getRandomItem } from '../game/utils'
 
 export default {
@@ -29,6 +30,7 @@ export default {
     return {}
   },
   methods: {
+    getNameColorClass,
     getHitType() {
       return getRandomItem([
         'took a swing at',

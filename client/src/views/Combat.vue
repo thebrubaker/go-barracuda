@@ -15,36 +15,41 @@
       </div>
     </PageHeader>
     <el-row style="height: 45%">
-      <el-col :span="12" class="border-gray-200 border-r h-full">
-        <StackedList>
-          <StackedListItem
-            v-for="unit in redTeam"
-            :class="{
-              'current-unit': isCurrentUnit(unit),
-              'current-target': isCurrentTarget(unit),
-            }"
-            :key="unit.key"
-            :unit="unit"
-          />
-        </StackedList>
+      <el-col
+        :span="12"
+        class="border-gray-200 border-r overflow-y-scroll h-full pt-2"
+      >
+        <StackedListItem
+          v-for="unit in redTeam"
+          @click.native="selectUnit(unit)"
+          :class="{
+            'current-unit': isCurrentUnit(unit),
+            'current-target': isCurrentTarget(unit),
+          }"
+          :key="unit.key"
+          :unit="unit"
+          :selected="selectedUnit === unit.key"
+        />
       </el-col>
-      <el-col :span="12">
-        <StackedList>
-          <StackedListItem
-            v-for="unit in blueTeam"
-            :class="{
-              'current-unit': isCurrentUnit(unit),
-              'current-target': isCurrentTarget(unit),
-            }"
-            :key="unit.key"
-            :unit="unit"
-          />
-        </StackedList>
+      <el-col :span="12" class="overflow-y-scroll h-full pt-2">
+        <StackedListItem
+          v-for="unit in blueTeam"
+          :class="{
+            'current-unit': isCurrentUnit(unit),
+            'current-target': isCurrentTarget(unit),
+          }"
+          :key="unit.key"
+          :unit="unit"
+        />
       </el-col>
     </el-row>
-    <el-row class="bg-gray-700 shadow-inner flex-1 overflow-scroll">
+    <el-row class="bg-gray-700 shadow-inner overflow-scroll flex-1 relative">
+      <div
+        style="background: linear-gradient(rgb(30 30 30 / 0%) 0%, rgb(30, 30, 30) 100%);"
+        class="h-full absolute top-0 bottom-0 left-0 right-0"
+      ></div>
       <el-col
-        class="log-container theme-dark flex text-white flex-col justify-end px-4 py-2 text-sm h-full"
+        class="log-container theme-dark flex flex-col-reverse text-white justify-end px-4 py-2 text-sm"
         :span="24"
       >
         <LogLine
@@ -95,7 +100,6 @@
 // @ is an alias to /src
 import PageContainer from '../components/PageContainer'
 import PageHeader from '../components/PageHeader'
-import StackedList from '../components/StackedList'
 import StackedListItem from '../components/StackedListItem'
 import LogLine from '../components/LogLine'
 import LogWeaponAttack from '../components/LogWeaponAttack'
@@ -110,7 +114,6 @@ export default {
   components: {
     PageContainer,
     PageHeader,
-    StackedList,
     StackedListItem,
     LogLine,
     LogWeaponAttack,
@@ -122,6 +125,7 @@ export default {
   data() {
     return {
       gameState,
+      selectedUnit: null,
     }
   },
   computed: {
@@ -134,6 +138,9 @@ export default {
   },
   methods: {
     nextTick,
+    selectUnit(unit) {
+      this.selectedUnit = unit.key
+    },
     isCurrentUnit(unit) {
       return unit.key === gameState.currentUnit
     },

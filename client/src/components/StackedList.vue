@@ -1,11 +1,7 @@
 <template>
-  <div class="grid-content bg-purple-dark">
-    <div class="bg-white overflow-hidden sm:rounded-md">
-      <ul class="pt-2">
-        <slot></slot>
-      </ul>
-    </div>
-  </div>
+  <ul class="pt-2">
+    <slot></slot>
+  </ul>
 </template>
 
 <script>
