@@ -22,13 +22,17 @@ This is a turn-based combat simulator that pits two teams against one another.
 
 Each unit has a number of actions that they can take per turn, and at the beginning of a turn they roll for initiative on each action.
 
-### Morale
+### Exhaustion
 
-A unit's morale determines how likely they are to land a blow on an opponent. The number of morale points you have gives you the ability to roll with "advantage." In practice, you roll a die to hit for each morale point you have, and choose the highest of all the rolls.
+Taking an action to attack or defend increases the unit's exhaustion. Once a unit is exhausted, they must rest during their turn. A unit is unable to defend themselves if they are too exhausted.
 
-### Damage
+### Skill, Morale, Luck and Divine Favor
 
-Landing a successful blow on an opponent is almost always a one-hit kill. Limbs can be destroyed or cut off. Armor has an added chance of deflecting a blow. Armor can be destroyed when deflecting a blow.
+The succcess of a unit's action is determined by their skill, morale, luck and divine favor, such as landing a blow on an opponent or defending an attack. Skill and morale add / subtract points to the dice roll. Luck and Divine Favor add advantage / disadvantage to the roll.
+
+### Armor, Quality and Condition
+
+Landing a successful blow on an opponent's unarmored body or head is always a one-hit kill. Limbs can be destroyed or cut off. Armor has an added chance of deflecting a blow. Armor has a chance of degrading upon deflecting a blow. There are three tiers of armor condition: good, fair and worn. Once an armor is "worn" it no longer offers protection from blows. However, armor can be repaired to restore the condition (but only by 1 point from the lowest condition). The quality of the armor determines how likely a blow will degrade the condition of the armor. Low quality has a 1 in 3 chance to degrade. Legendary armor has a 1 in 100 chance to degrade. The type of armor also determines what types of damage it can block. If the armor receives a blow from a damage type it does not have resistance to, it is automatically degraded by one level.
 
 ### Feature Request
 
