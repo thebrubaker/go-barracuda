@@ -60,4 +60,29 @@ Think of how Markdown works. The following templating language could be parsed i
 </div>
 ```
 
-## Armor
+## Regions
+
+- Meadow
+- Pond
+- Common Pasture
+- Barn
+- Oven
+- Manor House
+- Spring Planting
+- Autumn Planting
+- Woods
+- Fallow
+- Fields
+- Mill
+- Marsh
+- Blacksmith
+- Orchard
+- Tannery
+- Well
+- Bakehouse
+- Workshop
+- Temple
+- Windmill
+- Barracks
+- Alchemist
+- Tavern

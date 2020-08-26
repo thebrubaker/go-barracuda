@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-import Combat from '../views/Combat.vue'
+import Combat from '../views/combat/Combat.vue'
+import Buildings from '../views/buildings/Buildings.vue'
 
 Vue.use(VueRouter)
 
@@ -15,6 +16,11 @@ const routes = [
     path: '/combat',
     name: 'Combat',
     component: Combat,
+  },
+  {
+    path: '/buildings',
+    name: 'Buildings',
+    component: Buildings,
   },
   {
     path: '/about',
