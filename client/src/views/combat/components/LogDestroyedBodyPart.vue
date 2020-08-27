@@ -12,8 +12,8 @@
 
 <script>
 import { getNameColorClass } from '../utils/combat'
-import { getRandomItem } from '../game/utils'
-import { LEFT_ARM, RIGHT_ARM, LEFT_LEG, RIGHT_LEG } from '../game/units'
+import { getRandomItem } from '@/game/utils'
+import { LEFT_ARM, RIGHT_ARM, LEFT_LEG, RIGHT_LEG } from '@/game/units'
 export default {
   components: {},
   props: ['turn', 'bodyPart', 'defender'],

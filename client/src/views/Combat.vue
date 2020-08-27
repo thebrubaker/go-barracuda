@@ -103,7 +103,7 @@ import LogDefendAttack from '../components/LogDefendAttack'
 import LogUnitDies from '../components/LogUnitDies'
 import LogArmorCondition from '../components/LogArmorCondition'
 import LogArmorDefense from '../components/LogArmorDefense'
-import { gameState, nextTick } from '../game/game'
+import { gameState, nextTick } from '@/game/game'
 
 export default {
   name: 'Home',

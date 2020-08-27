@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { getHitType, getDamageType, getBodyPart } from '../game/log'
+import { getHitType, getDamageType, getBodyPart } from '@/game/log'
 import { getNameColorClass } from '../utils/combat'
 
 export default {

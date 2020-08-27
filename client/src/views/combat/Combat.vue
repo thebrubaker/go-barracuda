@@ -94,8 +94,9 @@
 
 <script>
 // @ is an alias to /src
-import PageContainer from '../../components/PageContainer'
-import PageHeader from '../../components/PageHeader'
+import { gameState, nextTick } from '@/game'
+import PageContainer from '@/components/PageContainer'
+import PageHeader from '@/components/PageHeader'
 import StackedListItem from './components/StackedListItem'
 import LogLine from './components/LogLine'
 import LogWeaponAttack from './components/LogWeaponAttack'
@@ -103,7 +104,6 @@ import LogDefendAttack from './components/LogDefendAttack'
 import LogUnitDies from './components/LogUnitDies'
 import LogArmorCondition from './components/LogArmorCondition'
 import LogArmorDefense from './components/LogArmorDefense'
-import { gameState, nextTick } from './game/game'
 
 export default {
   name: 'Home',

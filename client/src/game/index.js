@@ -32,6 +32,7 @@ function createGameState() {
     currentTarget: null,
     units: {},
     initiativeOrder: [],
+    parties: {},
   }
 
   let fighterCount = getRandomInt(3) + 5
@@ -44,6 +45,12 @@ function createGameState() {
       key: index,
       initiative: [],
       team: 1,
+      action: getRandomItem([
+        'Resting',
+        'Performing training exercise',
+        'Gathering equipment',
+        'Gathering resources',
+      ]),
     }
   }
 
@@ -59,6 +66,15 @@ function createGameState() {
 
   // Generate the order of actions
   gameState.initiativeOrder = generateInitiativeOrder(gameState.units)
+
+  // Generate a party
+  gameState.parties[1] = {
+    units: [
+      ...Object.values(gameState.units)
+        .filter(unit => unit.team === 1)
+        .map(unit => unit.key),
+    ],
+  }
 
   return Vue.observable(gameState)
 }
@@ -325,14 +341,6 @@ function createWeaponAttackLog(context) {
     ...context,
   })
 }
-
-// function createDestroyedBodyPartLog(context) {
-//   gameState.logs.push({
-//     turn: gameState.turn + '.' + gameState.step,
-//     type: 'DestroyedBodyPart',
-//     ...context,
-//   })
-// }
 
 function generateInitiativeOrder(units) {
   let order = []

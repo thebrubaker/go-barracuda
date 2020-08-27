@@ -13,6 +13,48 @@ export const SLASH = 'SLASH'
 export const BLUNT = 'BLUNT'
 export const PIERCE = 'PIERCE'
 
+export const WarHammer = {
+  name: 'WarHammer',
+  attackTypes: [NORMAL_ATTACK, STRONG_ATTACK],
+  damageTypes: { [SWING]: BLUNT },
+  size: 3,
+}
+
+export const GreatAxe = {
+  name: 'GreatAxe',
+  attackTypes: [WILD_ATTACK, STRONG_ATTACK],
+  damageTypes: { [SWING]: SLASH },
+  size: 3,
+}
+
+export const Spear = {
+  name: 'Spear',
+  attackTypes: [NORMAL_ATTACK],
+  damageTypes: { [THRUST]: PIERCE },
+  size: 2,
+}
+
+export const Mace = {
+  name: 'Mace',
+  attackTypes: [NORMAL_ATTACK, STRONG_ATTACK],
+  damageTypes: { [SWING]: BLUNT },
+  size: 2,
+}
+
+export const Sword = {
+  name: 'Sword',
+  attackTypes: [NORMAL_ATTACK, WILD_ATTACK, QUICK_ATTACK, STRONG_ATTACK],
+  damageTypes: { [SWING]: SLASH, [THRUST]: PIERCE },
+  size: 2,
+}
+
+export const Dagger = {
+  name: 'Dagger',
+  attackTypes: [NORMAL_ATTACK, QUICK_ATTACK],
+  damageTypes: { [SWING]: SLASH, [THRUST]: PIERCE },
+  size: 1,
+}
+
 export function randomGoblinWeapon() {
   return getRandomItem([
     {
@@ -104,40 +146,4 @@ export function getRandomDagger() {
       'Kard',
     ]),
   }
-}
-
-export const WarHammer = {
-  attackTypes: [NORMAL_ATTACK, STRONG_ATTACK],
-  damageTypes: { [SWING]: BLUNT },
-  size: 3,
-}
-
-export const GreatAxe = {
-  attackTypes: [WILD_ATTACK, STRONG_ATTACK],
-  damageTypes: { [SWING]: SLASH },
-  size: 3,
-}
-
-export const Spear = {
-  attackTypes: [NORMAL_ATTACK],
-  damageTypes: { [THRUST]: PIERCE },
-  size: 2,
-}
-
-export const Mace = {
-  attackTypes: [NORMAL_ATTACK, STRONG_ATTACK],
-  damageTypes: { [SWING]: BLUNT },
-  size: 2,
-}
-
-export const Sword = {
-  attackTypes: [NORMAL_ATTACK, WILD_ATTACK, QUICK_ATTACK, STRONG_ATTACK],
-  damageTypes: { [SWING]: SLASH, [THRUST]: PIERCE },
-  size: 2,
-}
-
-export const Dagger = {
-  attackTypes: [NORMAL_ATTACK, QUICK_ATTACK],
-  damageTypes: { [SWING]: SLASH, [THRUST]: PIERCE },
-  size: 1,
 }

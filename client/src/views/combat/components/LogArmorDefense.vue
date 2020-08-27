@@ -13,7 +13,7 @@
 
 <script>
 import { getNameColorClass } from '../utils/combat'
-import { getRandomItem } from '../game/utils'
+import { getRandomItem } from '@/game/utils'
 
 export default {
   components: {},

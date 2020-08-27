@@ -60,13 +60,13 @@
 
 <script>
 import { getNameColorClass } from '../utils/combat'
-import { BLOCK, DODGE, PARRY } from '../game/combat'
+import { BLOCK, DODGE, PARRY } from '@/game/combat'
 import {
   getBlockType,
   getParryType,
   getDodgeType,
   getHitType,
-} from '../game/log'
+} from '@/game/log'
 
 export default {
   components: {},
