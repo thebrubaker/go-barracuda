@@ -1,11 +1,11 @@
 <template>
-  <PageContainer class="flex flex-col">
+  <PageContainer id="party" class="flex flex-col">
     <PageHeader>
       <div class="flex-1 min-w-0">
-        <h1 class="text-sm font-medium leading-6 text-gray-300 sm:truncate">
+        <h1 class="text-sm font-medium leading-6 text-gray-400 sm:truncate">
           Party Simulator
         </h1>
-        <small class="text-gray-400 text-lg">Goblin Smashers</small>
+        <small class="text-gray-600 text-lg">Goblin Smashers</small>
       </div>
       <div class="mt-4 flex sm:mt-0 sm:ml-4">
         <el-button class="order-0 sm:order-1 sm:ml-3 shadow-sm rounded-md"
@@ -13,10 +13,10 @@
         >
       </div>
     </PageHeader>
-    <el-row class="h-96 border-gray-200 border-b">
+    <el-row class="flex-1 border-gray-200 border-b">
       <el-col
-        class="border-gray-200 border-r h-full p-4 overflow-y-auto"
-        :span="14"
+        class="border-gray-200 border-r h-full overflow-y-auto"
+        :span="16"
       >
         <div>
           <UnitRow
@@ -27,193 +27,298 @@
           />
         </div>
       </el-col>
-      <el-col class="h-full p-4 overflow-y-auto" :span="8"
-        ><h2>Resources</h2></el-col
-      >
+      <el-col class="h-full overflow-y-auto text-sm" :span="8">
+        <div
+          v-for="resource in resources"
+          :key="resource.type"
+          class="flex justify-between py-3 pl-4 pr-8 text-cool-gray-800"
+        >
+          <div class="">{{ resource.type }}</div>
+          <div>
+            {{ resource.count }}
+            <span class="text-cool-gray-600 text-xs">
+              / {{ resource.target }}</span
+            >
+          </div>
+        </div>
+      </el-col>
     </el-row>
-    <el-row>
-      <el-col :span="24" class="h-full p-4">
-        <el-row>
-          <h2>Party Settings</h2>
-        </el-row>
-        <el-row class="mt-2">
-          <el-col :span="8">
-            <el-row :gutter="10">
-              <el-col :span="24" class="mb-2">
-                <label class="text-sm text-cool-gray-400">Weapons</label>
-              </el-col>
-              <el-col :span="12">
-                <el-select
-                  size="mini"
-                  multiple
-                  collapse-tags
-                  v-model="weapon.qualityTypes"
-                  placeholder="Quality"
-                >
-                  <el-option
-                    v-for="type in qualityTypes"
-                    :key="type.name"
-                    :label="type.name"
-                    :value="type.value"
-                  >
-                  </el-option>
-                </el-select>
-              </el-col>
-              <el-col :span="12">
-                <el-select
-                  size="mini"
-                  v-model="weapon.materialTypes"
-                  multiple
-                  collapse-tags
-                  placeholder="Materials"
-                >
-                  <el-option
-                    v-for="type in materialTypes"
-                    :key="type"
-                    :label="type"
-                    :value="type"
-                  >
-                  </el-option>
-                </el-select>
-              </el-col>
-              <el-col :span="24">
-                <el-select
-                  size="mini"
-                  v-model="weapon.types"
-                  multiple
-                  placeholder="Weapon Types"
-                  class="w-full mt-3"
-                >
-                  <el-option
-                    v-for="type in weaponTypes"
-                    :key="type.name"
-                    :label="type.name"
-                    :value="type.name"
-                  >
-                  </el-option>
-                </el-select>
-              </el-col>
-            </el-row>
-            <el-divider class="mt-4 mb-2"></el-divider>
-            <el-row :gutter="10">
-              <el-col :span="24" class="mb-2">
-                <label class="text-sm text-cool-gray-400">Armor</label>
-              </el-col>
-              <el-col :span="12">
-                <el-select
-                  size="mini"
-                  multiple
-                  collapse-tags
-                  v-model="armor.qualityTypes"
-                  placeholder="Quality"
-                >
-                  <el-option
-                    v-for="type in qualityTypes"
-                    :key="type.name"
-                    :label="type.name"
-                    :value="type.value"
-                  >
-                  </el-option>
-                </el-select>
-              </el-col>
-              <el-col :span="12">
-                <el-select
-                  size="mini"
-                  v-model="armor.conditionTypes"
-                  multiple
-                  collapse-tags
-                  placeholder="Condition"
-                >
-                  <el-option
-                    v-for="type in conditionTypes"
-                    :key="type.name"
-                    :label="type.name"
-                    :value="type.value"
-                  >
-                  </el-option>
-                </el-select>
-              </el-col>
-              <el-col :span="24">
-                <el-select
-                  size="mini"
-                  v-model="armor.types"
-                  multiple
-                  placeholder="Armor Types"
-                  class="w-full mt-3"
-                >
-                  <el-option
-                    v-for="type in armorTypes"
-                    :key="type.name"
-                    :label="type.name"
-                    :value="type.value"
-                  >
-                  </el-option>
-                </el-select>
-              </el-col>
-            </el-row>
-            <el-divider class="mt-4 mb-2"></el-divider>
-            <el-row :gutter="10">
-              <el-col :span="24" class="mb-2">
-                <label class="text-sm text-cool-gray-400">Shields</label>
-              </el-col>
-              <el-col :span="12">
-                <el-select
-                  size="mini"
-                  multiple
-                  collapse-tags
-                  v-model="shield.qualityTypes"
-                  placeholder="Quality"
-                >
-                  <el-option
-                    v-for="type in qualityTypes"
-                    :key="type.name"
-                    :label="type.name"
-                    :value="type.value"
-                  >
-                  </el-option>
-                </el-select>
-              </el-col>
-              <el-col :span="12">
-                <el-select
-                  size="mini"
-                  v-model="shield.materialTypes"
-                  multiple
-                  collapse-tags
-                  placeholder="Materials"
-                >
-                  <el-option
-                    v-for="type in materialTypes"
-                    :key="type"
-                    :label="type"
-                    :value="type"
-                  >
-                  </el-option>
-                </el-select>
-              </el-col>
-              <el-col :span="24">
-                <el-select
-                  size="mini"
-                  v-model="shield.types"
-                  multiple
-                  collapse-tags
-                  placeholder="Shield Types"
-                  class="w-full mt-3"
-                >
-                  <el-option
-                    v-for="type in shieldTypes"
-                    :key="type"
-                    :label="type"
-                    :value="type"
-                  >
-                  </el-option>
-                </el-select>
-              </el-col>
-            </el-row>
+    <el-row :gutter="20" style="height: 480px;" class="p-4">
+      <el-col :span="8">
+        <el-row :gutter="10">
+          <el-col :span="24" class="mb-2">
+            <label class="text-sm text-cool-gray-700">Weapons</label>
           </el-col>
-          <el-col :span="8"></el-col>
-          <el-col :span="8"></el-col>
+          <el-col :span="12">
+            <el-select
+              size="mini"
+              multiple
+              collapse-tags
+              v-model="weapon.qualityTypes"
+              placeholder="Quality"
+              class="w-full"
+            >
+              <el-option
+                v-for="type in qualityTypes"
+                :key="type.name"
+                :label="type.name"
+                :value="type.value"
+              >
+              </el-option>
+            </el-select>
+          </el-col>
+          <el-col :span="12">
+            <el-select
+              size="mini"
+              v-model="weapon.materialTypes"
+              multiple
+              collapse-tags
+              placeholder="Materials"
+              class="w-full"
+            >
+              <el-option
+                v-for="type in materialTypes"
+                :key="type"
+                :label="type"
+                :value="type"
+              >
+              </el-option>
+            </el-select>
+          </el-col>
+          <el-col :span="24">
+            <el-select
+              size="mini"
+              v-model="weapon.types"
+              multiple
+              placeholder="Weapon Types"
+              class="w-full mt-3"
+            >
+              <el-option
+                v-for="type in weaponTypes"
+                :key="type.name"
+                :label="type.name"
+                :value="type.name"
+              >
+              </el-option>
+            </el-select>
+          </el-col>
+        </el-row>
+        <el-divider class="mt-4 mb-2"></el-divider>
+        <el-row :gutter="10">
+          <el-col :span="24" class="mb-2">
+            <label class="text-sm text-cool-gray-700">Armor</label>
+          </el-col>
+          <el-col :span="12">
+            <el-select
+              size="mini"
+              multiple
+              collapse-tags
+              v-model="armor.qualityTypes"
+              placeholder="Quality"
+              class="w-full"
+            >
+              <el-option
+                v-for="type in qualityTypes"
+                :key="type.name"
+                :label="type.name"
+                :value="type.value"
+              >
+              </el-option>
+            </el-select>
+          </el-col>
+          <el-col :span="12">
+            <el-select
+              size="mini"
+              v-model="armor.conditionTypes"
+              multiple
+              collapse-tags
+              placeholder="Condition"
+              class="w-full"
+            >
+              <el-option
+                v-for="type in conditionTypes"
+                :key="type.name"
+                :label="type.name"
+                :value="type.value"
+              >
+              </el-option>
+            </el-select>
+          </el-col>
+          <el-col :span="24">
+            <el-select
+              size="mini"
+              v-model="armor.types"
+              multiple
+              placeholder="Armor Types"
+              class="w-full mt-3"
+            >
+              <el-option
+                v-for="type in armorTypes"
+                :key="type.name"
+                :label="type.name"
+                :value="type.value"
+              >
+              </el-option>
+            </el-select>
+          </el-col>
+        </el-row>
+        <el-divider class="mt-4 mb-2"></el-divider>
+        <el-row :gutter="10">
+          <el-col :span="24" class="mb-2">
+            <label class="text-sm text-cool-gray-700">Shields</label>
+          </el-col>
+          <el-col :span="12">
+            <el-select
+              size="mini"
+              multiple
+              collapse-tags
+              v-model="shield.qualityTypes"
+              placeholder="Quality"
+              class="w-full"
+            >
+              <el-option
+                v-for="type in qualityTypes"
+                :key="type.name"
+                :label="type.name"
+                :value="type.value"
+              >
+              </el-option>
+            </el-select>
+          </el-col>
+          <el-col :span="12">
+            <el-select
+              size="mini"
+              v-model="shield.materialTypes"
+              multiple
+              collapse-tags
+              placeholder="Materials"
+              class="w-full"
+            >
+              <el-option
+                v-for="type in materialTypes"
+                :key="type"
+                :label="type"
+                :value="type"
+              >
+              </el-option>
+            </el-select>
+          </el-col>
+          <el-col :span="24">
+            <el-select
+              size="mini"
+              v-model="shield.types"
+              multiple
+              placeholder="Shield Types"
+              class="w-full mt-3"
+            >
+              <el-option
+                v-for="type in shieldTypes"
+                :key="type"
+                :label="type"
+                :value="type"
+              >
+              </el-option>
+            </el-select>
+          </el-col>
         </el-row>
       </el-col>
+      <el-col :span="8" class="relative">
+        <label class="text-sm text-cool-gray-700">
+          Tactics
+        </label>
+        <el-dropdown class="absolute top-8 right-0 cursor-pointer z-10">
+          <span>
+            Add Tactic<i class="el-icon-arrow-down el-icon--right"></i>
+          </span>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item v-for="type in tacticTypes" :key="type">{{
+              type
+            }}</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+        <el-tabs v-model="activeTacticsTab">
+          <el-tab-pane label="0%" name="first">
+            <div
+              v-for="tactic in tactics.zero"
+              :key="tactic.type"
+              class="flex justify-between align-middle pb-2"
+            >
+              <div
+                class="flex align-middle text-sm leading-loose text-cool-gray-700"
+              >
+                {{ tactic.type }}
+              </div>
+              <el-input-number
+                v-model="tactic.count"
+                controls-position="right"
+                size="mini"
+                :min="0"
+                :max="100"
+              ></el-input-number>
+            </div>
+          </el-tab-pane>
+          <el-tab-pane label="25%" name="second">
+            <div
+              v-for="tactic in tactics.quarter"
+              :key="tactic.type"
+              class="flex justify-between align-middle pb-2"
+            >
+              <div
+                class="flex align-middle text-sm leading-loose text-cool-gray-700"
+              >
+                {{ tactic.type }}
+              </div>
+              <el-input-number
+                v-model="tactic.count"
+                controls-position="right"
+                size="mini"
+                :min="0"
+                :max="100"
+              >
+              </el-input-number>
+            </div>
+          </el-tab-pane>
+          <el-tab-pane label="50%" name="third">
+            <div
+              v-for="tactic in tactics.half"
+              :key="tactic.type"
+              class="flex justify-between align-middle pb-2"
+            >
+              <div
+                class="flex align-middle text-sm leading-loose text-cool-gray-700"
+              >
+                {{ tactic.type }}
+              </div>
+              <el-input-number
+                v-model="tactic.count"
+                controls-position="right"
+                size="mini"
+                :min="0"
+                :max="100"
+              ></el-input-number></div
+          ></el-tab-pane>
+          <el-tab-pane label="75%" name="fourth">
+            <div
+              v-for="tactic in tactics.threeQuarter"
+              :key="tactic.type"
+              class="flex justify-between align-middle pb-2"
+            >
+              <div
+                class="flex align-middle text-sm leading-loose text-cool-gray-700"
+              >
+                {{ tactic.type }}
+              </div>
+              <el-input-number
+                v-model="tactic.count"
+                controls-position="right"
+                size="mini"
+                :min="0"
+                :max="100"
+              ></el-input-number></div
+          ></el-tab-pane>
+        </el-tabs>
+      </el-col>
+      <el-col :span="8"></el-col>
     </el-row>
   </PageContainer>
 </template>
@@ -248,6 +353,113 @@ export default {
   data() {
     return {
       gameState,
+      activeTacticsTab: 'first',
+      num: 20,
+      resources: [
+        {
+          type: 'Food',
+          count: 40,
+          target: 40,
+        },
+        {
+          type: 'Water',
+          count: 40,
+          target: 40,
+        },
+        {
+          type: 'Tents',
+          count: 7,
+          target: 15,
+        },
+        {
+          type: 'Wagons',
+          count: 2,
+          target: 2,
+        },
+        {
+          type: 'Cages',
+          count: 3,
+          target: 5,
+        },
+      ],
+      tactics: {
+        zero: [
+          {
+            type: 'Strong Attack',
+            count: 5,
+          },
+          {
+            type: 'Wild Attack',
+            count: 5,
+          },
+          {
+            type: 'Normal Attack',
+            count: 2,
+          },
+          {
+            type: 'Quick Attack',
+            count: 2,
+          },
+        ],
+        quarter: [
+          {
+            type: 'Strong Attack',
+            count: 2,
+          },
+          {
+            type: 'Quick Attack',
+            count: 3,
+          },
+          {
+            type: 'Normal Attack',
+            count: 4,
+          },
+        ],
+        half: [
+          {
+            type: 'Quick Attack',
+            count: 4,
+          },
+          {
+            type: 'Counter Attack',
+            count: 3,
+          },
+          {
+            type: 'Defensive Stance',
+            count: 2,
+          },
+        ],
+        threeQuarter: [
+          {
+            type: 'Defensive Stance',
+            count: 4,
+          },
+          {
+            type: 'Recover',
+            count: 3,
+          },
+          {
+            type: 'Rally',
+            count: 2,
+          },
+        ],
+      },
+      tacticTypes: [
+        'Normal Attack',
+        'Strong Attack',
+        'Quick Attack',
+        'Counter Attack',
+        'Wild Attack',
+        'Defensive Stance',
+        'Recover',
+        'Rally',
+      ],
+      attackTypes: [
+        {
+          name: 'Strong Attack',
+          value: 1,
+        },
+      ],
       qualityTypes: [
         { name: 'Low Quality', value: QUALITY_LOW },
         { name: 'Normal Quality', value: QUALITY_NORMAL },
@@ -303,4 +515,19 @@ export default {
 }
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+#party {
+  .el-tabs__item {
+    font-size: 11px;
+    @apply text-cool-gray-500;
+  }
+  .el-input-number--mini {
+    width: 85px;
+  }
+  .el-tabs__nav {
+    // display: flex;
+    // width: 100%;
+    // justify-content: space-between;
+  }
+}
+</style>

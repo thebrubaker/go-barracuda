@@ -35,7 +35,7 @@ function createGameState() {
     parties: {},
   }
 
-  let fighterCount = getRandomInt(3) + 5
+  let fighterCount = getRandomInt(3) + 10
   let enemyCount = getRandomInt(4) + 15
 
   // Generate Some Fighters

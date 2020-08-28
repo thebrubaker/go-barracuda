@@ -1,5 +1,5 @@
 <template>
-  <div class="relative cursor-pointer">
+  <div class="relative cursor-pointer border-gray-200 border-b px-4">
     <span
       v-if="selected"
       class="w-1 h-full absolute left-0 top-0 bg-blue-500"
@@ -8,7 +8,7 @@
       href="#"
       class="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"
     >
-      <div class="py-1 flex items-center">
+      <div class="py-2 flex items-center">
         <div class="min-w-0 flex flex-1 sm:items-center sm:justify-between">
           <div class="flex items-center text-xs leading-5 text-gray-500">
             <div class="inline-block h-4 w-4 text-white shadow-solid mr-1.5">
@@ -36,7 +36,7 @@
               </el-tooltip>
             </div>
           </div>
-          <div class="text-xs text-gray-300">
+          <div class="text-xs text-gray-500">
             {{ unit.action }}
           </div>
         </div>

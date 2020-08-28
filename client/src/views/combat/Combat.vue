@@ -45,7 +45,7 @@
     </el-row>
     <el-row class="bg-gray-700 shadow-inner overflow-scroll flex-1 relative">
       <el-col
-        class="log-container theme-dark flex flex-col-reverse text-white justify-end px-4 py-2 text-sm"
+        class="log-container theme-dark flex flex-col-reverse text-white justify-end px-4 py-2 text-sm h-full"
         :span="24"
       >
         <LogLine
