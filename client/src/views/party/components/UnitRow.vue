@@ -1,5 +1,5 @@
 <template>
-  <div class="relative cursor-pointer border-gray-200 border-b px-4">
+  <div class="relative cursor-pointer border-gray-200 border-b px-4 bg-white">
     <span
       v-if="selected"
       class="w-1 h-full absolute left-0 top-0 bg-blue-500"
