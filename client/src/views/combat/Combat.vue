@@ -21,14 +21,13 @@
       >
         <StackedListItem
           v-for="unit in redTeam"
-          @click.native="selectUnit(unit)"
+          @click.native="selectUnit()"
           :class="{
-            'current-unit': isCurrentUnit(unit),
             'current-target': isCurrentTarget(unit),
           }"
           :key="unit.key"
           :unit="unit"
-          :selected="selectedUnit === unit.key"
+          :selected="isCurrentUnit(unit)"
         />
       </el-col>
       <el-col :span="12" class="overflow-y-scroll h-full pt-2">

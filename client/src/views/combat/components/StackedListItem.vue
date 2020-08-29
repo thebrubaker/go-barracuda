@@ -2,7 +2,7 @@
   <div class="relative cursor-pointer">
     <span
       v-if="selected"
-      class="w-1 h-full absolute left-0 top-0 bg-blue-500"
+      class="h-full w-px absolute left-0 top-0 bg-blue-500"
     ></span>
     <div
       href="#"
@@ -54,14 +54,9 @@
             >
               <path
                 fill-rule="evenodd"
-                d="M10.293 15.707a1 1 0 010-1.414L14.586 10l-4.293-4.293a1 1 0 111.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
+                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
                 clip-rule="evenodd"
-              ></path>
-              <path
-                fill-rule="evenodd"
-                d="M4.293 15.707a1 1 0 010-1.414L8.586 10 4.293 5.707a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
-                clip-rule="evenodd"
-              ></path>
+              />
             </svg>
           </div>
           <div
@@ -135,10 +130,10 @@ export default {
     unitsOfExhaustion() {
       return Math.round((this.unit.exhaustion / this.unit.maxExhaustion) * 10)
     },
-    filledExhaustion() {
+    emptyExhaustion() {
       return [...Array(this.unitsOfExhaustion)]
     },
-    emptyExhaustion() {
+    filledExhaustion() {
       return this.unit.exhaustion > this.unit.maxExhaustion
         ? []
         : [...Array(10 - this.unitsOfExhaustion)]

@@ -28,20 +28,17 @@ const routes = [
     path: '/buildings',
     name: 'Buildings',
     component: Buildings,
+    meta: {
+      music: 'main',
+    },
   },
   {
     path: '/party',
     name: 'Party',
     component: Party,
-  },
-  {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ '../views/About.vue'),
+    meta: {
+      music: 'main',
+    },
   },
 ]
 
@@ -60,7 +57,8 @@ router.beforeEach((to, from, next) => {
   for (const [key, track] of Object.entries(musicTracks)) {
     if (key == to.meta.music) {
       track.play()
-      track.volume = 0.4
+      track.loop = true
+      track.volume = 0.2
     } else {
       track.volume = 0
     }
