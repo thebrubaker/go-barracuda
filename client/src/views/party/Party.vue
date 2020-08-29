@@ -47,12 +47,31 @@
                 <div
                   class="flex justify-between text-cool-gray-700 text-sm cursor-pointer"
                 >
-                  <div class="">{{ resource.type }}</div>
-                  <div class="text-md">
-                    {{ resource.count }}
-                    <span class="text-cool-gray-500 text-xs">
-                      / {{ resource.target }}</span
-                    >
+                  <div class="flex align-middle">
+                    <img
+                      class="w-6 h-6 mr-4"
+                      :src="require(`@/assets/${resource.icon}`)"
+                      alt=""
+                    />
+                    {{ resource.type }}
+                  </div>
+                  <div class="flex-1 flex justify-end align-middle">
+                    <div class="text-md">
+                      {{ resource.count }}
+                      <span class="text-cool-gray-500 text-xs">
+                        / {{ resource.target }}
+                      </span>
+                    </div>
+                    <div class="relative w-4 h-6 ml-4">
+                      <i
+                        class="el-icon-arrow-up text-xs top-0 absolute cursor-pointer hover:text-blue-600 hover:font-bold"
+                        @click="incrementResourceTarget(resource)"
+                      ></i>
+                      <i
+                        class="el-icon-arrow-down text-xs bottom-0 absolute cursor-pointer hover:font-bold"
+                        @click="decrementResourceTarget(resource)"
+                      ></i>
+                    </div>
                   </div>
                 </div>
               </el-card>
@@ -71,8 +90,8 @@
             <span>Party Settings</span>
           </div>
           <div class="p-4">
-            <el-tabs tab-position="left">
-              <el-tab-pane label="Equipment">
+            <el-tabs tab-position="left" v-model="activeSettingsTab">
+              <el-tab-pane label="Equipment" name="equipment">
                 <el-row :gutter="20" class="p-4 pt-0">
                   <el-col :span="8">
                     <div class="text-md text-cool-gray-500 mb-2">Weapons</div>
@@ -240,7 +259,7 @@
                 </el-row>
               </el-tab-pane>
 
-              <el-tab-pane label="Tactics">
+              <el-tab-pane label="Tactics" name="tactics">
                 <el-row :gutter="20" class="p-4 pt-0">
                   <el-col :span="18" class="relative">
                     <el-dropdown
@@ -260,110 +279,52 @@
                       </el-dropdown-menu>
                     </el-dropdown>
                     <el-tabs v-model="activeTacticsTab">
-                      <el-tab-pane label="Full Stamina" name="first">
+                      <el-tab-pane
+                        v-for="(category, key) in tactics"
+                        :key="key"
+                        :label="category.label"
+                        :name="key"
+                      >
                         <div
-                          v-for="tactic in tactics.full"
-                          :key="tactic.type"
+                          v-for="item in category.items"
+                          :key="item.type"
                           class="flex justify-between align-middle pb-2"
                         >
                           <div
                             class="flex align-middle text-sm leading-loose text-cool-gray-700"
                           >
-                            {{ tactic.type }}
+                            {{ item.type }}
                           </div>
-                          <el-input-number
-                            v-model="tactic.count"
-                            controls-position="right"
-                            size="mini"
-                            :min="0"
-                            :max="100"
-                          ></el-input-number>
+                          <div class="flex align-middle justify-between">
+                            <div>
+                              {{
+                                (item.count /
+                                  category.items.reduce(
+                                    (sum, tactic) => sum + tactic.count,
+                                    0
+                                  ))
+                                  | toPercentage
+                              }}
+                            </div>
+                            <div class="relative w-4 h-6 ml-4">
+                              <i
+                                class="el-icon-arrow-up text-xs top-0 absolute cursor-pointer hover:text-blue-600 hover:font-bold"
+                                @click="incrementTactic(item)"
+                              ></i>
+                              <i
+                                class="el-icon-arrow-down text-xs bottom-0 absolute cursor-pointer hover:font-bold"
+                                @click="decrementTactic(item)"
+                              ></i>
+                            </div>
+                          </div>
                         </div>
                       </el-tab-pane>
-                      <el-tab-pane label="75% Stamina" name="second">
-                        <div
-                          v-for="tactic in tactics.quarter"
-                          :key="tactic.type"
-                          class="flex justify-between align-middle pb-2"
-                        >
-                          <div
-                            class="flex align-middle text-sm leading-loose text-cool-gray-700"
-                          >
-                            {{ tactic.type }}
-                          </div>
-                          <el-input-number
-                            v-model="tactic.count"
-                            controls-position="right"
-                            size="mini"
-                            :min="0"
-                            :max="100"
-                          >
-                          </el-input-number>
-                        </div>
-                      </el-tab-pane>
-                      <el-tab-pane label="50% Stamina" name="third">
-                        <div
-                          v-for="tactic in tactics.half"
-                          :key="tactic.type"
-                          class="flex justify-between align-middle pb-2"
-                        >
-                          <div
-                            class="flex align-middle text-sm leading-loose text-cool-gray-700"
-                          >
-                            {{ tactic.type }}
-                          </div>
-                          <el-input-number
-                            v-model="tactic.count"
-                            controls-position="right"
-                            size="mini"
-                            :min="0"
-                            :max="100"
-                          ></el-input-number></div
-                      ></el-tab-pane>
-                      <el-tab-pane label="25% Stamina" name="fourth">
-                        <div
-                          v-for="tactic in tactics.threeQuarter"
-                          :key="tactic.type"
-                          class="flex justify-between align-middle pb-2"
-                        >
-                          <div
-                            class="flex align-middle text-sm leading-loose text-cool-gray-700"
-                          >
-                            {{ tactic.type }}
-                          </div>
-                          <el-input-number
-                            v-model="tactic.count"
-                            controls-position="right"
-                            size="mini"
-                            :min="0"
-                            :max="100"
-                          ></el-input-number></div
-                      ></el-tab-pane>
-                      <el-tab-pane label="0% Stamina" name="fifth">
-                        <div
-                          v-for="tactic in tactics.empty"
-                          :key="tactic.type"
-                          class="flex justify-between align-middle py-2"
-                        >
-                          <div
-                            class="flex align-middle text-sm leading-loose text-cool-gray-700"
-                          >
-                            {{ tactic.type }}
-                          </div>
-                          <el-input-number
-                            v-model="tactic.count"
-                            controls-position="right"
-                            size="mini"
-                            :min="0"
-                            :max="100"
-                          ></el-input-number></div
-                      ></el-tab-pane>
                     </el-tabs>
                   </el-col>
                 </el-row>
               </el-tab-pane>
-              <el-tab-pane label="Training">Role</el-tab-pane>
-              <el-tab-pane label="Assignments">Task</el-tab-pane>
+              <el-tab-pane label="Training" name="training"></el-tab-pane>
+              <el-tab-pane label="Assignments" name="assignments"></el-tab-pane>
             </el-tabs>
           </div>
         </el-card>
@@ -399,105 +360,129 @@ export default {
     PageHeader,
     UnitRow,
   },
+  filters: {
+    toPercentage(value) {
+      if (!value) {
+        return '0%'
+      }
+
+      return (value * 100).toFixed(0) + '%'
+    },
+  },
   data() {
     return {
       gameState,
-      activeTacticsTab: 'first',
+      activeSettingsTab: 'tactics',
+      activeTacticsTab: 'full',
       num: 20,
       supplies: [
         {
           type: 'Food',
+          icon: 'icons/medieval/food/2.png',
           count: 40,
           target: 40,
         },
         {
           type: 'Water',
+          icon: 'icons/medieval/food/12.png',
           count: 40,
           target: 40,
         },
         {
           type: 'Tents',
+          icon: 'icons/medieval/tools/6.png',
           count: 7,
           target: 15,
         },
         {
           type: 'Wagons',
-          count: 2,
+          icon: 'icons/medieval/property/8.png',
+          count: 1,
           target: 2,
-        },
-        {
-          type: 'Cages',
-          count: 3,
-          target: 5,
         },
       ],
       tactics: {
-        full: [
-          {
-            type: 'Strong Attack',
-            count: 5,
-          },
-          {
-            type: 'Wild Attack',
-            count: 5,
-          },
-          {
-            type: 'Normal Attack',
-            count: 2,
-          },
-          {
-            type: 'Quick Attack',
-            count: 2,
-          },
-        ],
-        threeQuarter: [
-          {
-            type: 'Defensive Stance',
-            count: 4,
-          },
-          {
-            type: 'Recover',
-            count: 3,
-          },
-          {
-            type: 'Rally',
-            count: 2,
-          },
-        ],
-        half: [
-          {
-            type: 'Quick Attack',
-            count: 4,
-          },
-          {
-            type: 'Counter Attack',
-            count: 3,
-          },
-          {
-            type: 'Defensive Stance',
-            count: 2,
-          },
-        ],
-        quarter: [
-          {
-            type: 'Strong Attack',
-            count: 2,
-          },
-          {
-            type: 'Quick Attack',
-            count: 3,
-          },
-          {
-            type: 'Normal Attack',
-            count: 4,
-          },
-        ],
-        empty: [
-          {
-            type: 'Recover',
-            count: 3,
-          },
-        ],
+        full: {
+          label: '100% Stamina',
+          items: [
+            {
+              type: 'Strong Attack',
+              count: 1,
+            },
+            {
+              type: 'Wild Attack',
+              count: 1,
+            },
+            {
+              type: 'Normal Attack',
+              count: 1,
+            },
+            {
+              type: 'Quick Attack',
+              count: 1,
+            },
+          ],
+        },
+        threeQuarter: {
+          label: '75% Stamina',
+          items: [
+            {
+              type: 'Defensive Stance',
+              count: 1,
+            },
+            {
+              type: 'Recover',
+              count: 1,
+            },
+            {
+              type: 'Rally',
+              count: 1,
+            },
+          ],
+        },
+        half: {
+          label: '50% Stamina',
+          items: [
+            {
+              type: 'Quick Attack',
+              count: 1,
+            },
+            {
+              type: 'Counter Attack',
+              count: 1,
+            },
+            {
+              type: 'Defensive Stance',
+              count: 1,
+            },
+          ],
+        },
+        quarter: {
+          label: '25% Stamina',
+          items: [
+            {
+              type: 'Strong Attack',
+              count: 1,
+            },
+            {
+              type: 'Quick Attack',
+              count: 1,
+            },
+            {
+              type: 'Normal Attack',
+              count: 1,
+            },
+          ],
+        },
+        empty: {
+          label: '0% Stamina',
+          items: [
+            {
+              type: 'Recover',
+              count: 1,
+            },
+          ],
+        },
       },
       tacticTypes: [
         'Normal Attack',
@@ -565,7 +550,20 @@ export default {
       return gameState.parties[1].units.map(key => gameState.units[key])
     },
   },
-  methods: {},
+  methods: {
+    incrementResourceTarget(resource) {
+      resource.target++
+    },
+    decrementResourceTarget(resource) {
+      resource.target = Math.max(0, resource.target - 1)
+    },
+    incrementTactic(tactic) {
+      tactic.count++
+    },
+    decrementTactic(tactic) {
+      tactic.count = Math.max(0, tactic.count - 1)
+    },
+  },
   mounted() {},
 }
 </script>
