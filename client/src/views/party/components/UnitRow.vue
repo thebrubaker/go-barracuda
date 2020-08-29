@@ -11,7 +11,7 @@
       <div class="py-2 flex items-center">
         <div class="min-w-0 flex flex-1 sm:items-center sm:justify-between">
           <div class="flex items-center text-xs leading-5 text-gray-500">
-            <div class="inline-block h-4 w-4 text-white shadow-solid mr-1.5">
+            <div class="inline-block h-6 w-6 text-white shadow-solid mr-1.5">
               <img :src="require(`@/assets/${types[unit.type]}`)" alt="" />
             </div>
             <span
@@ -33,6 +33,19 @@
                 placement="top-start"
               >
                 <img :src="require(`@/assets/icons/slash.png`)" alt="" />
+              </el-tooltip>
+            </div>
+            <div v-if="isEquipped" class="inline-block h-3 w-3 ml-2 text-white">
+              <el-tooltip
+                class="item"
+                effect="dark"
+                content="Equipped"
+                placement="top-start"
+              >
+                <img
+                  :src="require(`@/assets/icons/swordsman/Icon17.png`)"
+                  alt=""
+                />
               </el-tooltip>
             </div>
           </div>
@@ -108,6 +121,9 @@ export default {
         !this.unit.bodyParts.includes(LEFT_LEG) ||
         !this.unit.bodyParts.includes(RIGHT_LEG)
       )
+    },
+    isEquipped() {
+      return true
     },
   },
   data() {

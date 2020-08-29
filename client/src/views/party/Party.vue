@@ -84,7 +84,7 @@
           :body-style="{ padding: 0 }"
           shadow="none"
           class="h-full"
-          style="height: 450px;"
+          style="height: 360px;"
         >
           <div slot="header" class="clearfix">
             <span>Party Settings</span>
@@ -94,8 +94,12 @@
               <el-tab-pane label="Equipment" name="equipment">
                 <el-row :gutter="20" class="p-4 pt-0">
                   <el-col :span="8">
-                    <div class="text-md text-cool-gray-500 mb-2">Weapons</div>
-                    <div class="text-sm text-cool-gray-800 mb-1">Quality</div>
+                    <div
+                      class="text-lg leading-6 font-medium text-gray-900 mb-2"
+                    >
+                      Weapons
+                    </div>
+                    <div class="text-sm text-gray-500 mb-1">Quality</div>
                     <el-select
                       size="medium"
                       multiple
@@ -111,7 +115,7 @@
                       >
                       </el-option>
                     </el-select>
-                    <div class="text-sm text-cool-gray-800 mb-1">Materials</div>
+                    <div class="text-sm text-gray-500 mb-1">Materials</div>
                     <el-select
                       size="medium"
                       v-model="weapon.materialTypes"
@@ -127,7 +131,7 @@
                       >
                       </el-option>
                     </el-select>
-                    <div class="text-sm text-cool-gray-800 mb-1">
+                    <div class="text-sm text-gray-500 mb-1">
                       Weapon Types
                     </div>
                     <el-select
@@ -148,8 +152,12 @@
                   </el-col>
 
                   <el-col :span="8">
-                    <div class="text-md text-cool-gray-500 mb-2">Armor</div>
-                    <div class="text-sm text-cool-gray-800 mb-1">Quality</div>
+                    <div
+                      class="text-lg leading-6 font-medium text-gray-900 mb-2"
+                    >
+                      Armor
+                    </div>
+                    <div class="text-sm text-gray-500 mb-1">Quality</div>
                     <el-select
                       size="medium"
                       multiple
@@ -165,7 +173,7 @@
                       >
                       </el-option>
                     </el-select>
-                    <div class="text-sm text-cool-gray-800 mb-1">Condition</div>
+                    <div class="text-sm text-gray-500 mb-1">Condition</div>
                     <el-select
                       size="medium"
                       v-model="armor.conditionTypes"
@@ -181,7 +189,7 @@
                       >
                       </el-option>
                     </el-select>
-                    <div class="text-sm text-cool-gray-800 mb-1">
+                    <div class="text-sm text-gray-500 mb-1">
                       Armor Types
                     </div>
                     <el-select
@@ -202,8 +210,12 @@
                   </el-col>
 
                   <el-col :span="8">
-                    <div class="text-md text-cool-gray-500 mb-2">Shields</div>
-                    <div class="text-sm text-cool-gray-800 mb-1">Quality</div>
+                    <div
+                      class="text-lg leading-6 font-medium text-gray-900 mb-2"
+                    >
+                      Shields
+                    </div>
+                    <div class="text-sm text-gray-500 mb-1">Quality</div>
                     <el-select
                       size="medium"
                       multiple
@@ -219,7 +231,7 @@
                       >
                       </el-option>
                     </el-select>
-                    <div class="text-sm text-cool-gray-800 mb-1">Materials</div>
+                    <div class="text-sm text-gray-500 mb-1">Materials</div>
 
                     <el-select
                       size="medium"
@@ -236,7 +248,7 @@
                       >
                       </el-option>
                     </el-select>
-                    <div class="text-sm text-cool-gray-800 mb-1">
+                    <div class="text-sm text-gray-500 mb-1">
                       Shield Types
                     </div>
 
@@ -261,7 +273,16 @@
 
               <el-tab-pane label="Tactics" name="tactics">
                 <el-row :gutter="20" class="p-4 pt-0">
-                  <el-col :span="18" class="relative">
+                  <el-col :span="15" class="relative">
+                    <h3 class="text-lg leading-6 font-medium text-gray-900">
+                      Tactics
+                    </h3>
+                    <div class="mt-2 max-w-xl text-sm leading-5 text-gray-500">
+                      <p>
+                        Configure the priority of each tactic for the selected
+                        stamina of the unit.
+                      </p>
+                    </div>
                     <el-dropdown
                       class="absolute top-2 right-6 cursor-pointer z-10"
                     >

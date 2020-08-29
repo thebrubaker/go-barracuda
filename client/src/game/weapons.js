@@ -14,14 +14,14 @@ export const BLUNT = 'BLUNT'
 export const PIERCE = 'PIERCE'
 
 export const WarHammer = {
-  name: 'WarHammer',
+  name: 'War Hammer',
   attackTypes: [NORMAL_ATTACK, STRONG_ATTACK],
   damageTypes: { [SWING]: BLUNT },
   size: 3,
 }
 
 export const GreatAxe = {
-  name: 'GreatAxe',
+  name: 'Great Axe',
   attackTypes: [WILD_ATTACK, STRONG_ATTACK],
   damageTypes: { [SWING]: SLASH },
   size: 3,
