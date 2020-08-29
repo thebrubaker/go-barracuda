@@ -95,6 +95,7 @@
 <script>
 // @ is an alias to /src
 import { gameState, nextTick } from '@/game'
+import { getRandomItem } from '@/game/utils'
 import PageContainer from '@/components/PageContainer'
 import PageHeader from '@/components/PageHeader'
 import StackedListItem from './components/StackedListItem'
@@ -130,6 +131,41 @@ export default {
     },
     blueTeam() {
       return Object.values(gameState.units).filter(unit => unit.team === 2)
+    },
+  },
+  watch: {
+    'gameState.logs': {
+      handler(logs) {
+        let audio
+        switch (logs[logs.length - 1].type) {
+          case 'WeaponAttack':
+            audio = new Audio(
+              getRandomItem([
+                require('@/assets/sounds/sword-impact-1.mp3'),
+                require('@/assets/sounds/sword-impact-2.mp3'),
+                require('@/assets/sounds/sword-impact-3.mp3'),
+              ])
+            )
+            audio.play()
+            break
+          case 'DefendAttack':
+            audio = new Audio(require('@/assets/sounds/sword-impact-2.mp3'))
+            audio.play()
+            break
+          case 'UnitDies':
+            audio = new Audio(require('@/assets/sounds/sword-impact-2.mp3'))
+            audio.play()
+            break
+          case 'ArmorCondition':
+            audio = new Audio(require('@/assets/sounds/sword-impact-2.mp3'))
+            audio.play()
+            break
+          case 'ArmorDefense':
+            audio = new Audio(require('@/assets/sounds/sword-impact-2.mp3'))
+            audio.play()
+            break
+        }
+      },
     },
   },
   methods: {

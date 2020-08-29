@@ -12,11 +12,17 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home,
+    meta: {
+      music: 'main',
+    },
   },
   {
     path: '/combat',
     name: 'Combat',
     component: Combat,
+    meta: {
+      music: 'combat',
+    },
   },
   {
     path: '/buildings',
@@ -43,6 +49,23 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes,
+})
+
+let musicTracks = {
+  main: new Audio(require('@/assets/music/sammys-theme.mp3')),
+  combat: new Audio(require('@/assets/music/combat.mp3')),
+}
+
+router.beforeEach((to, from, next) => {
+  for (const [key, track] of Object.entries(musicTracks)) {
+    if (key == to.meta.music) {
+      track.play()
+      track.volume = 0.4
+    } else {
+      track.volume = 0
+    }
+  }
+  next()
 })
 
 export default router
