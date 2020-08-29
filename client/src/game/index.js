@@ -47,9 +47,11 @@ function createGameState() {
       team: 1,
       action: getRandomItem([
         'Resting',
-        'Performing training exercise',
+        'Running a training exercise',
         'Gathering equipment',
-        'Gathering resources',
+        'Gathering supplies',
+        'Sparring',
+        'Patroling',
       ]),
     }
   }
