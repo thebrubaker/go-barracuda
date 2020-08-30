@@ -2,9 +2,12 @@
   <PageContainer @keyup.space="nextTick">
     <PageHeader>
       <div class="flex-1 min-w-0">
-        <h1 class="text-lg font-medium leading-6 text-gray-900 sm:truncate">
-          Combat Simulation
+        <h1 class="text-sm font-medium leading-6 text-gray-400 sm:truncate">
+          Combat Simulator
         </h1>
+        <small class="text-gray-600 text-lg"
+          >Goblin Smashers vs Goblin Raiders</small
+        >
       </div>
       <div class="mt-4 flex sm:mt-0 sm:ml-4">
         <el-button
@@ -14,7 +17,7 @@
         >
       </div>
     </PageHeader>
-    <el-row style="height: 45%">
+    <el-row style="height: 75%">
       <el-col
         :span="12"
         class="border-gray-200 border-r overflow-y-scroll h-full pt-2"
@@ -22,23 +25,17 @@
         <StackedListItem
           v-for="unit in redTeam"
           @click.native="selectUnit()"
-          :class="{
-            'current-target': isCurrentTarget(unit),
-          }"
           :key="unit.key"
           :unit="unit"
-          :selected="isCurrentUnit(unit)"
+          :selected="isCurrentUnit(unit) || isCurrentTarget(unit)"
         />
       </el-col>
       <el-col :span="12" class="overflow-y-scroll h-full pt-2">
         <StackedListItem
           v-for="unit in blueTeam"
-          :class="{
-            'current-target': isCurrentTarget(unit),
-          }"
           :key="unit.key"
           :unit="unit"
-          :selected="isCurrentUnit(unit)"
+          :selected="isCurrentUnit(unit) || isCurrentTarget(unit)"
         />
       </el-col>
     </el-row>
@@ -135,109 +132,109 @@ export default {
   },
   watch: {
     'gameState.logs': {
-      handler(logs) {
-        let audio
-        let log = logs[logs.length - 1]
-        switch (log.type) {
-          case 'WeaponAttack':
-            audio = new Audio(
-              getRandomItem([
-                require('@/assets/sounds/sword-impact-1.mp3'),
-                require('@/assets/sounds/sword-impact-2.mp3'),
-                require('@/assets/sounds/sword-impact-3.mp3'),
-                require('@/assets/sounds/flesh-hit-1.mp3'),
-                require('@/assets/sounds/flesh-hit-2.mp3'),
-                require('@/assets/sounds/flesh-hit-3.mp3'),
-                require('@/assets/sounds/flesh-hit-4.mp3'),
-                require('@/assets/sounds/flesh-hit-5.mp3'),
-                require('@/assets/sounds/flesh-hit-6.mp3'),
-              ])
-            )
-            break
-          case 'DefendAttack':
-            switch (log.defenseType) {
-              case BLOCK:
-                audio = new Audio(
-                  getRandomItem([
-                    require('@/assets/sounds/blocked.mp3'),
-                    require('@/assets/sounds/blocked-2.mp3'),
-                    require('@/assets/sounds/blocked-3.mp3'),
-                    require('@/assets/sounds/blocked-4.mp3'),
-                    require('@/assets/sounds/blocked-6.mp3'),
-                    require('@/assets/sounds/blocked-7.mp3'),
-                    require('@/assets/sounds/sword-1.mp3'),
-                    require('@/assets/sounds/sword-2.mp3'),
-                    require('@/assets/sounds/pierce.mp3'),
-                  ])
-                )
-                break
-              case DODGE:
-                audio = new Audio(
-                  getRandomItem([
-                    require('@/assets/sounds/dodge-1.mp3'),
-                    require('@/assets/sounds/dodge-2.mp3'),
-                    require('@/assets/sounds/dodge-3.mp3'),
-                    require('@/assets/sounds/dodge-4.mp3'),
-                    require('@/assets/sounds/dodge-5.mp3'),
-                  ])
-                )
-                break
-              case PARRY:
-                audio = new Audio(
-                  getRandomItem([
-                    require('@/assets/sounds/parry.mp3'),
-                    require('@/assets/sounds/parry-2.mp3'),
-                    require('@/assets/sounds/parry-3.mp3'),
-                    require('@/assets/sounds/parry-4.mp3'),
-                  ])
-                )
-                break
-            }
-            break
-          case 'UnitDies':
-            switch (log.defender.team) {
-              case 1:
-                audio = new Audio(
-                  getRandomItem([
-                    require('@/assets/sounds/human-grunt-1.mp3'),
-                    require('@/assets/sounds/human-grunt-2.mp3'),
-                    require('@/assets/sounds/human-grunt-3.mp3'),
-                    require('@/assets/sounds/human-grunt-4.mp3'),
-                  ])
-                )
-                break
-              case 2:
-                audio = new Audio(
-                  getRandomItem([
-                    require('@/assets/sounds/goblin-dies.mp3'),
-                    require('@/assets/sounds/goblin.mp3'),
-                    require('@/assets/sounds/goblin-2.mp3'),
-                    require('@/assets/sounds/goblin-3.mp3'),
-                    require('@/assets/sounds/goblin-4.mp3'),
-                    require('@/assets/sounds/goblin-5.mp3'),
-                    require('@/assets/sounds/goblin-dies.mp3'),
-                  ])
-                )
-                break
-            }
-            break
-          case 'ArmorCondition':
-            break
-          case 'ArmorDefense':
-            audio = new Audio(
-              getRandomItem([
-                require('@/assets/sounds/blocked.mp3'),
-                require('@/assets/sounds/blocked-2.mp3'),
-                require('@/assets/sounds/blocked-3.mp3'),
-                require('@/assets/sounds/blocked-4.mp3'),
-                require('@/assets/sounds/blocked-6.mp3'),
-                require('@/assets/sounds/blocked-7.mp3'),
-              ])
-            )
-            break
-        }
-        audio.play()
-      },
+      // handler(logs) {
+      //   let audio
+      //   let log = logs[logs.length - 1]
+      //   switch (log.type) {
+      //     case 'WeaponAttack':
+      //       audio = new Audio(
+      //         getRandomItem([
+      //           require('@/assets/sounds/sword-impact-1.mp3'),
+      //           require('@/assets/sounds/sword-impact-2.mp3'),
+      //           require('@/assets/sounds/sword-impact-3.mp3'),
+      //           require('@/assets/sounds/flesh-hit-1.mp3'),
+      //           require('@/assets/sounds/flesh-hit-2.mp3'),
+      //           require('@/assets/sounds/flesh-hit-3.mp3'),
+      //           require('@/assets/sounds/flesh-hit-4.mp3'),
+      //           require('@/assets/sounds/flesh-hit-5.mp3'),
+      //           require('@/assets/sounds/flesh-hit-6.mp3'),
+      //         ])
+      //       )
+      //       break
+      //     case 'DefendAttack':
+      //       switch (log.defenseType) {
+      //         case BLOCK:
+      //           audio = new Audio(
+      //             getRandomItem([
+      //               require('@/assets/sounds/blocked.mp3'),
+      //               require('@/assets/sounds/blocked-2.mp3'),
+      //               require('@/assets/sounds/blocked-3.mp3'),
+      //               require('@/assets/sounds/blocked-4.mp3'),
+      //               require('@/assets/sounds/blocked-6.mp3'),
+      //               require('@/assets/sounds/blocked-7.mp3'),
+      //               require('@/assets/sounds/sword-1.mp3'),
+      //               require('@/assets/sounds/sword-2.mp3'),
+      //               require('@/assets/sounds/pierce.mp3'),
+      //             ])
+      //           )
+      //           break
+      //         case DODGE:
+      //           audio = new Audio(
+      //             getRandomItem([
+      //               require('@/assets/sounds/dodge-1.mp3'),
+      //               require('@/assets/sounds/dodge-2.mp3'),
+      //               require('@/assets/sounds/dodge-3.mp3'),
+      //               require('@/assets/sounds/dodge-4.mp3'),
+      //               require('@/assets/sounds/dodge-5.mp3'),
+      //             ])
+      //           )
+      //           break
+      //         case PARRY:
+      //           audio = new Audio(
+      //             getRandomItem([
+      //               require('@/assets/sounds/parry.mp3'),
+      //               require('@/assets/sounds/parry-2.mp3'),
+      //               require('@/assets/sounds/parry-3.mp3'),
+      //               require('@/assets/sounds/parry-4.mp3'),
+      //             ])
+      //           )
+      //           break
+      //       }
+      //       break
+      //     case 'UnitDies':
+      //       switch (log.defender.team) {
+      //         case 1:
+      //           audio = new Audio(
+      //             getRandomItem([
+      //               require('@/assets/sounds/human-grunt-1.mp3'),
+      //               require('@/assets/sounds/human-grunt-2.mp3'),
+      //               require('@/assets/sounds/human-grunt-3.mp3'),
+      //               require('@/assets/sounds/human-grunt-4.mp3'),
+      //             ])
+      //           )
+      //           break
+      //         case 2:
+      //           audio = new Audio(
+      //             getRandomItem([
+      //               require('@/assets/sounds/goblin-dies.mp3'),
+      //               require('@/assets/sounds/goblin.mp3'),
+      //               require('@/assets/sounds/goblin-2.mp3'),
+      //               require('@/assets/sounds/goblin-3.mp3'),
+      //               require('@/assets/sounds/goblin-4.mp3'),
+      //               require('@/assets/sounds/goblin-5.mp3'),
+      //               require('@/assets/sounds/goblin-dies.mp3'),
+      //             ])
+      //           )
+      //           break
+      //       }
+      //       break
+      //     case 'ArmorCondition':
+      //       break
+      //     case 'ArmorDefense':
+      //       audio = new Audio(
+      //         getRandomItem([
+      //           require('@/assets/sounds/blocked.mp3'),
+      //           require('@/assets/sounds/blocked-2.mp3'),
+      //           require('@/assets/sounds/blocked-3.mp3'),
+      //           require('@/assets/sounds/blocked-4.mp3'),
+      //           require('@/assets/sounds/blocked-6.mp3'),
+      //           require('@/assets/sounds/blocked-7.mp3'),
+      //         ])
+      //       )
+      //       break
+      //   }
+      //   audio.play()
+      // },
     },
   },
   methods: {

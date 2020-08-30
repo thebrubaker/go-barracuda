@@ -1,5 +1,5 @@
 <template>
-  <div class="relative cursor-pointer">
+  <div class="relative cursor-pointer" :class="{ shadow: selected }">
     <span
       v-if="selected"
       class="h-full w-px absolute left-0 top-0 bg-green-500"
@@ -9,10 +9,10 @@
       class="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"
       :class="{ 'bg-gray-50': selected }"
     >
-      <div class="px-4 py-1 flex items-center">
+      <div class="px-4 py-2 flex items-center">
         <div class="min-w-0 flex flex-1 sm:items-center sm:justify-between">
           <div class="flex items-center text-xs leading-5 text-gray-500">
-            <div class="inline-block h-4 w-4 text-white shadow-solid mr-1.5">
+            <div class="inline-block h-6 w-6 text-white shadow-solid mr-1.5">
               <img :src="require(`@/assets/${types[unit.type]}`)" alt="" />
             </div>
             <span
