@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import { getNameColorClass } from '../utils/combat'
+import { getNameColorClass } from '@/utils/combat'
 
 export default {
   components: {},

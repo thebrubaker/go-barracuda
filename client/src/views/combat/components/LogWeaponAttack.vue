@@ -22,7 +22,7 @@
 
 <script>
 import { getHitType, getDamageType, getBodyPart } from '@/game/log'
-import { getNameColorClass } from '../utils/combat'
+import { getNameColorClass } from '@/utils/combat'
 
 export default {
   components: {},

@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { getNameColorClass } from '../utils/combat'
+import { getNameColorClass } from '@/utils/combat'
 import { getRandomItem } from '@/game/utils'
 
 export default {

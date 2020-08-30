@@ -34,11 +34,11 @@
         <StackedListItem
           v-for="unit in blueTeam"
           :class="{
-            'current-unit': isCurrentUnit(unit),
             'current-target': isCurrentTarget(unit),
           }"
           :key="unit.key"
           :unit="unit"
+          :selected="isCurrentUnit(unit)"
         />
       </el-col>
     </el-row>

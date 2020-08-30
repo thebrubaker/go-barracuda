@@ -2,11 +2,12 @@
   <div class="relative cursor-pointer">
     <span
       v-if="selected"
-      class="h-full w-px absolute left-0 top-0 bg-blue-500"
+      class="h-full w-px absolute left-0 top-0 bg-green-500"
     ></span>
     <div
       href="#"
       class="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"
+      :class="{ 'bg-gray-50': selected }"
     >
       <div class="px-4 py-1 flex items-center">
         <div class="min-w-0 flex flex-1 sm:items-center sm:justify-between">

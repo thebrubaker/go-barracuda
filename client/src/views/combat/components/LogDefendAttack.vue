@@ -59,7 +59,7 @@
 </template>
 
 <script>
-import { getNameColorClass } from '../utils/combat'
+import { getNameColorClass } from '@/utils/combat'
 import { BLOCK, DODGE, PARRY } from '@/game/combat'
 import {
   getBlockType,
