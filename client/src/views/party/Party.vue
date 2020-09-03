@@ -8,23 +8,36 @@
         <small class="text-gray-600 text-lg">Goblin Smashers</small>
       </div>
       <div class="mt-4 flex sm:mt-0 sm:ml-4">
-        <el-button class="order-0 sm:order-1 sm:ml-3 shadow-sm rounded-md"
-          >Next Tick</el-button
-        >
+        <el-button class="order-0 sm:order-1 sm:ml-3 shadow-sm rounded-md">
+          Next Tick
+        </el-button>
       </div>
     </PageHeader>
     <div class="flex flex-col h-full">
       <el-row :gutter="20" class="flex-1 p-4 pb-0">
         <el-col class="overflow-y-auto h-full" :span="16">
           <el-card :body-style="{ padding: 0 }" shadow="none" class="h-full">
-            <div slot="header" class="clearfix">
+            <div slot="header" class="flex justify-between">
               <span>Members</span>
-              <el-button style="float: right; padding: 3px 0" type="text">
-                Add Unit
-              </el-button>
+              <el-dropdown class="">
+                <el-button>
+                  Add Unit<i class="el-icon-arrow-down el-icon--right"></i>
+                </el-button>
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item v-if="!availableUnits.length" disabled
+                    >No Units Available</el-dropdown-item
+                  >
+                  <el-dropdown-item
+                    v-for="unit in availableUnits"
+                    :key="unit.key"
+                    @click="addUnitToGroup(unit.key)"
+                    >{{ unit.name }}</el-dropdown-item
+                  >
+                </el-dropdown-menu>
+              </el-dropdown>
             </div>
             <UnitRow
-              v-for="unit in units"
+              v-for="unit in groupUnits"
               :key="unit.key"
               :unit="unit"
               :selected="false"
@@ -33,12 +46,28 @@
         </el-col>
         <el-col class="overflow-y-auto h-full bg-gray-100" :span="8">
           <el-card :body-style="{ padding: 0 }" shadow="none" class="h-full">
-            <div slot="header" class="clearfix">
+            <div slot="header" class="flex justify-between">
               <span>Supplies</span>
+              <el-dropdown class="">
+                <el-button>
+                  Add Resource<i class="el-icon-arrow-down el-icon--right"></i>
+                </el-button>
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item v-if="!availableSupplies.length" disabled
+                    >No Resources Available</el-dropdown-item
+                  >
+                  <el-dropdown-item
+                    v-for="resource in availableSupplies"
+                    :key="resource"
+                    @click.native="increaseResourceTarget(groupKey, resource)"
+                    >{{ getConstantName(resource) }}</el-dropdown-item
+                  >
+                </el-dropdown-menu>
+              </el-dropdown>
             </div>
             <div class="p-4">
               <el-card
-                v-for="resource in supplies"
+                v-for="resource in groupSupplies.sort()"
                 :key="resource.type"
                 :body-style="{ padding: '10px 20px' }"
                 shadow="hover"
@@ -50,10 +79,10 @@
                   <div class="flex align-middle">
                     <img
                       class="w-6 h-6 mr-4"
-                      :src="require(`@/assets/${resource.icon}`)"
-                      alt=""
+                      :src="getIcon(resource.key)"
+                      :alt="getConstantName(resource.key)"
                     />
-                    {{ resource.type }}
+                    {{ getConstantName(resource.key) }}
                   </div>
                   <div class="flex-1 flex justify-end align-middle">
                     <div class="text-md">
@@ -65,11 +94,11 @@
                     <div class="relative w-4 h-6 ml-4">
                       <i
                         class="el-icon-arrow-up text-xs top-0 absolute cursor-pointer hover:text-blue-600 hover:font-bold"
-                        @click="incrementResourceTarget(resource)"
+                        @click="increaseResourceTarget(groupKey, resource.key)"
                       ></i>
                       <i
                         class="el-icon-arrow-down text-xs bottom-0 absolute cursor-pointer hover:font-bold"
-                        @click="decrementResourceTarget(resource)"
+                        @click="decreaseResourceTarget(groupKey, resource.key)"
                       ></i>
                     </div>
                   </div>
@@ -103,30 +132,32 @@
                     <el-select
                       size="medium"
                       multiple
-                      v-model="weapon.qualityTypes"
+                      :value="group.weaponQuality"
+                      @change="types => setWeaponQuality(groupKey, types)"
                       placeholder="Quality"
                       class="w-full mb-3"
                     >
                       <el-option
                         v-for="type in qualityTypes"
-                        :key="type.name"
-                        :label="type.name"
-                        :value="type.value"
+                        :key="type"
+                        :label="getConstantName(type)"
+                        :value="type"
                       >
                       </el-option>
                     </el-select>
                     <div class="text-sm text-gray-500 mb-1">Materials</div>
                     <el-select
                       size="medium"
-                      v-model="weapon.materialTypes"
                       multiple
-                      placeholder="Materials"
+                      :value="group.weaponMaterials"
+                      @change="types => setWeaponMaterials(groupKey, types)"
+                      placeholder="Quality"
                       class="w-full mb-3"
                     >
                       <el-option
                         v-for="type in materialTypes"
                         :key="type"
-                        :label="type"
+                        :label="getConstantName(type)"
                         :value="type"
                       >
                       </el-option>
@@ -136,16 +167,17 @@
                     </div>
                     <el-select
                       size="medium"
-                      v-model="weapon.types"
                       multiple
-                      placeholder="Weapon Types"
+                      :value="group.weaponTypes"
+                      @change="types => setWeaponTypes(groupKey, types)"
+                      placeholder="Quality"
                       class="w-full mb-3"
                     >
                       <el-option
                         v-for="type in weaponTypes"
-                        :key="type.name"
-                        :label="type.name"
-                        :value="type.name"
+                        :key="type"
+                        :label="getConstantName(type)"
+                        :value="type"
                       >
                       </el-option>
                     </el-select>
@@ -161,31 +193,33 @@
                     <el-select
                       size="medium"
                       multiple
-                      v-model="armor.qualityTypes"
+                      :value="group.armorQuality"
+                      @change="types => setArmorQuality(groupKey, types)"
                       placeholder="Quality"
                       class="w-full mb-3"
                     >
                       <el-option
                         v-for="type in qualityTypes"
-                        :key="type.name"
-                        :label="type.name"
-                        :value="type.value"
+                        :key="type"
+                        :label="getConstantName(type)"
+                        :value="type"
                       >
                       </el-option>
                     </el-select>
                     <div class="text-sm text-gray-500 mb-1">Condition</div>
                     <el-select
                       size="medium"
-                      v-model="armor.conditionTypes"
                       multiple
-                      placeholder="Condition"
+                      :value="group.armorCondition"
+                      @change="types => setArmorCondition(groupKey, types)"
+                      placeholder="Quality"
                       class="w-full mb-3"
                     >
                       <el-option
                         v-for="type in conditionTypes"
-                        :key="type.name"
-                        :label="type.name"
-                        :value="type.value"
+                        :key="type"
+                        :label="getConstantName(type)"
+                        :value="type"
                       >
                       </el-option>
                     </el-select>
@@ -194,16 +228,17 @@
                     </div>
                     <el-select
                       size="medium"
-                      v-model="armor.types"
                       multiple
-                      placeholder="Armor Types"
+                      :value="group.armorTypes"
+                      @change="types => setArmorTypes(groupKey, types)"
+                      placeholder="Quality"
                       class="w-full mb-3"
                     >
                       <el-option
                         v-for="type in armorTypes"
-                        :key="type.name"
-                        :label="type.name"
-                        :value="type.value"
+                        :key="type"
+                        :label="getConstantName(type)"
+                        :value="type"
                       >
                       </el-option>
                     </el-select>
@@ -219,15 +254,16 @@
                     <el-select
                       size="medium"
                       multiple
-                      v-model="shield.qualityTypes"
+                      :value="group.shieldQuality"
+                      @change="types => setShieldQuality(groupKey, types)"
                       placeholder="Quality"
                       class="w-full mb-3"
                     >
                       <el-option
                         v-for="type in qualityTypes"
-                        :key="type.name"
-                        :label="type.name"
-                        :value="type.value"
+                        :key="type"
+                        :label="getConstantName(type)"
+                        :value="type"
                       >
                       </el-option>
                     </el-select>
@@ -235,15 +271,16 @@
 
                     <el-select
                       size="medium"
-                      v-model="shield.materialTypes"
                       multiple
-                      placeholder="Materials"
+                      :value="group.shieldMaterials"
+                      @change="types => setWeaponMaterials(groupKey, types)"
+                      placeholder="Quality"
                       class="w-full mb-3"
                     >
                       <el-option
                         v-for="type in materialTypes"
                         :key="type"
-                        :label="type"
+                        :label="getConstantName(type)"
                         :value="type"
                       >
                       </el-option>
@@ -254,15 +291,16 @@
 
                     <el-select
                       size="medium"
-                      v-model="shield.types"
                       multiple
-                      placeholder="Shield Types"
+                      :value="group.shieldTypes"
+                      @change="types => setShieldTypes(groupKey, types)"
+                      placeholder="Quality"
                       class="w-full mb-3"
                     >
                       <el-option
                         v-for="type in shieldTypes"
                         :key="type"
-                        :label="type"
+                        :label="getConstantName(type)"
                         :value="type"
                       >
                       </el-option>
@@ -293,48 +331,48 @@
                       </span>
                       <el-dropdown-menu slot="dropdown">
                         <el-dropdown-item
-                          v-for="type in tacticTypes"
-                          :key="type"
-                          >{{ type }}</el-dropdown-item
+                          v-for="tactic in tacticTypes"
+                          :key="tactic"
+                          @click.native="
+                            increaseTactic(groupKey, activeTacticsTab, tactic)
+                          "
+                          >{{ getConstantName(tactic) }}</el-dropdown-item
                         >
                       </el-dropdown-menu>
                     </el-dropdown>
                     <el-tabs v-model="activeTacticsTab">
                       <el-tab-pane
-                        v-for="(category, key) in tactics"
-                        :key="key"
-                        :label="category.label"
-                        :name="key"
+                        v-for="(tactics, staminaKey) in group.tactics"
+                        :key="staminaKey"
+                        :label="getConstantName(staminaKey)"
+                        :name="staminaKey"
                       >
                         <div
-                          v-for="item in category.items"
-                          :key="item.type"
+                          v-for="tactic in getDistinct(tactics).sort()"
+                          :key="tactic"
                           class="flex justify-between align-middle pb-2"
                         >
                           <div
                             class="flex align-middle text-sm leading-loose text-cool-gray-700"
                           >
-                            {{ item.type }}
+                            {{ getConstantName(tactic) }}
                           </div>
                           <div class="flex align-middle justify-between">
                             <div>
-                              {{
-                                (item.count /
-                                  category.items.reduce(
-                                    (sum, tactic) => sum + tactic.count,
-                                    0
-                                  ))
-                                  | toPercentage
-                              }}
+                              {{ getRatio(tactic, tactics) | toPercentage }}
                             </div>
                             <div class="relative w-4 h-6 ml-4">
                               <i
                                 class="el-icon-arrow-up text-xs top-0 absolute cursor-pointer hover:text-blue-600 hover:font-bold"
-                                @click="incrementTactic(item)"
+                                @click="
+                                  increaseTactic(groupKey, staminaKey, tactic)
+                                "
                               ></i>
                               <i
                                 class="el-icon-arrow-down text-xs bottom-0 absolute cursor-pointer hover:font-bold"
-                                @click="decrementTactic(item)"
+                                @click="
+                                  decreaseTactic(groupKey, staminaKey, tactic)
+                                "
                               ></i>
                             </div>
                           </div>
@@ -359,20 +397,37 @@
 import PageContainer from '../../components/PageContainer'
 import PageHeader from '../../components/PageHeader'
 import UnitRow from './components/UnitRow'
-import { gameState } from '@/game'
-import { WarHammer, GreatAxe, Spear, Mace, Sword, Dagger } from '@/game/weapons'
+import { gameState } from '../../game'
 import {
-  ARMOR_TYPE_LEATHER,
-  ARMOR_TYPE_CHAINMAIL,
-  ARMOR_TYPE_PLATE,
-  QUALITY_LOW,
-  QUALITY_NORMAL,
-  QUALITY_HIGH,
-  QUALITY_LEGENDARY,
-  CONDITION_WORN,
-  CONDITION_FAIR,
-  CONDITION_GOOD,
-} from '@/game/armor'
+  unitGroupState,
+  addUnitToGroup,
+  increaseResourceTarget,
+  decreaseResourceTarget,
+  setWeaponQuality,
+  setWeaponTypes,
+  setWeaponMaterials,
+  setShieldQuality,
+  setShieldTypes,
+  setShieldMaterials,
+  setArmorQuality,
+  setArmorTypes,
+  setArmorCondition,
+  increaseTactic,
+  decreaseTactic,
+} from '../../game/unit-group'
+import { getIcon } from '../../utils/assets'
+import {
+  conditionTypes,
+  qualityTypes,
+  armorTypes,
+  shieldTypes,
+  weaponTypes,
+  materialTypes,
+  resourceTypes,
+  tacticTypes,
+  getConstantName,
+  STAMINA_FULL,
+} from '../../utils/constants'
 
 export default {
   name: 'Home',
@@ -393,196 +448,69 @@ export default {
   data() {
     return {
       gameState,
-      activeSettingsTab: 'tactics',
-      activeTacticsTab: 'full',
-      num: 20,
-      supplies: [
-        {
-          type: 'Food',
-          icon: 'icons/medieval/food/2.png',
-          count: 40,
-          target: 40,
-        },
-        {
-          type: 'Water',
-          icon: 'icons/medieval/food/12.png',
-          count: 40,
-          target: 40,
-        },
-        {
-          type: 'Tents',
-          icon: 'icons/medieval/tools/6.png',
-          count: 7,
-          target: 15,
-        },
-        {
-          type: 'Wagons',
-          icon: 'icons/medieval/property/8.png',
-          count: 1,
-          target: 2,
-        },
-      ],
-      tactics: {
-        full: {
-          label: '100% Stamina',
-          items: [
-            {
-              type: 'Strong Attack',
-              count: 1,
-            },
-            {
-              type: 'Wild Attack',
-              count: 1,
-            },
-            {
-              type: 'Normal Attack',
-              count: 1,
-            },
-            {
-              type: 'Quick Attack',
-              count: 1,
-            },
-          ],
-        },
-        threeQuarter: {
-          label: '75% Stamina',
-          items: [
-            {
-              type: 'Defensive Stance',
-              count: 1,
-            },
-            {
-              type: 'Recover',
-              count: 1,
-            },
-            {
-              type: 'Rally',
-              count: 1,
-            },
-          ],
-        },
-        half: {
-          label: '50% Stamina',
-          items: [
-            {
-              type: 'Quick Attack',
-              count: 1,
-            },
-            {
-              type: 'Counter Attack',
-              count: 1,
-            },
-            {
-              type: 'Defensive Stance',
-              count: 1,
-            },
-          ],
-        },
-        quarter: {
-          label: '25% Stamina',
-          items: [
-            {
-              type: 'Strong Attack',
-              count: 1,
-            },
-            {
-              type: 'Quick Attack',
-              count: 1,
-            },
-            {
-              type: 'Normal Attack',
-              count: 1,
-            },
-          ],
-        },
-        empty: {
-          label: '0% Stamina',
-          items: [
-            {
-              type: 'Recover',
-              count: 1,
-            },
-          ],
-        },
-      },
-      tacticTypes: [
-        'Normal Attack',
-        'Strong Attack',
-        'Quick Attack',
-        'Counter Attack',
-        'Wild Attack',
-        'Defensive Stance',
-        'Recover',
-        'Rally',
-      ],
-      attackTypes: [
-        {
-          name: 'Strong Attack',
-          value: 1,
-        },
-      ],
-      qualityTypes: [
-        { name: 'Low Quality', value: QUALITY_LOW },
-        { name: 'Normal Quality', value: QUALITY_NORMAL },
-        { name: 'High Quality', value: QUALITY_HIGH },
-        { name: 'Legendary Quality', value: QUALITY_LEGENDARY },
-      ],
-      materialTypes: ['Wood', 'Stone', 'Iron', 'Steel'],
-      weaponTypes: [WarHammer, GreatAxe, Spear, Mace, Sword, Dagger],
-      conditionTypes: [
-        {
-          name: 'Worn Condition',
-          value: CONDITION_WORN,
-        },
-        {
-          name: 'Fair Condition',
-          value: CONDITION_FAIR,
-        },
-        {
-          name: 'Good Condition',
-          value: CONDITION_GOOD,
-        },
-      ],
-      armorTypes: [
-        { name: ARMOR_TYPE_LEATHER.name, value: ARMOR_TYPE_LEATHER.name },
-        { name: ARMOR_TYPE_CHAINMAIL.name, value: ARMOR_TYPE_CHAINMAIL.name },
-        { name: ARMOR_TYPE_PLATE.name, value: ARMOR_TYPE_PLATE.name },
-      ],
-      shieldTypes: ['Buckler', 'Kite', 'Tower'],
-      weapon: {
-        qualityTypes: [QUALITY_HIGH, QUALITY_LOW, QUALITY_NORMAL],
-        materialTypes: ['Wood', 'Stone', 'Iron', 'Steel'],
-        types: [Spear.name, Mace.name, Sword.name],
-      },
-      armor: {
-        qualityTypes: [QUALITY_HIGH, QUALITY_LOW, QUALITY_NORMAL],
-        conditionTypes: [CONDITION_GOOD, CONDITION_FAIR],
-        types: [ARMOR_TYPE_LEATHER.name, ARMOR_TYPE_CHAINMAIL.name],
-      },
-      shield: {
-        qualityTypes: [QUALITY_HIGH, QUALITY_LOW, QUALITY_NORMAL],
-        materialTypes: ['Wood', 'Stone', 'Iron', 'Steel'],
-        types: ['Buckler', 'Kite', 'Tower'],
-      },
+      unitGroupState,
+      activeSettingsTab: 'equipment',
+      activeTacticsTab: STAMINA_FULL,
+      qualityTypes,
+      armorTypes,
+      conditionTypes,
+      shieldTypes,
+      weaponTypes,
+      materialTypes,
+      resourceTypes,
+      tacticTypes,
     }
   },
   computed: {
-    units() {
-      return gameState.parties[1].units.map(key => gameState.units[key])
+    groupKey() {
+      return Object.keys(unitGroupState.group)[0]
+    },
+    group() {
+      return unitGroupState.group[this.groupKey]
+    },
+    groupUnits() {
+      return this.group
+        ? this.group.unitKeys.map(key => gameState.units[key])
+        : []
+    },
+    allUnits() {
+      return Object.values(gameState.units).filter(unit => unit.team === 1)
+    },
+    availableUnits() {
+      return this.allUnits.filter(unit => !this.groupUnits.includes(unit))
+    },
+    groupSupplies() {
+      return this.group ? Object.values(this.group.supplies) : []
+    },
+    supplyKeys() {
+      return this.groupSupplies.map(resource => resource.key)
+    },
+    availableSupplies() {
+      return resourceTypes.filter(key => !this.supplyKeys.includes(key))
     },
   },
   methods: {
-    incrementResourceTarget(resource) {
-      resource.target++
+    addUnitToGroup,
+    increaseResourceTarget,
+    decreaseResourceTarget,
+    setWeaponQuality,
+    setWeaponTypes,
+    setWeaponMaterials,
+    setShieldQuality,
+    setShieldTypes,
+    setShieldMaterials,
+    setArmorQuality,
+    setArmorTypes,
+    setArmorCondition,
+    increaseTactic,
+    decreaseTactic,
+    getIcon,
+    getConstantName,
+    getDistinct(items) {
+      return [...new Set(items)]
     },
-    decrementResourceTarget(resource) {
-      resource.target = Math.max(0, resource.target - 1)
-    },
-    incrementTactic(tactic) {
-      tactic.count++
-    },
-    decrementTactic(tactic) {
-      tactic.count = Math.max(0, tactic.count - 1)
+    getRatio(item, items) {
+      return items.filter(i => i === item).length / items.length
     },
   },
   mounted() {},

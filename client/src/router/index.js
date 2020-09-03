@@ -48,22 +48,22 @@ const router = new VueRouter({
   routes,
 })
 
-let musicTracks = {
-  main: new Audio(require('@/assets/music/sammys-theme.mp3')),
-  combat: new Audio(require('@/assets/music/combat.mp3')),
-}
+// let musicTracks = {
+//   main: new Audio(require('@/assets/music/sammys-theme.mp3')),
+//   combat: new Audio(require('@/assets/music/combat.mp3')),
+// }
 
-router.beforeEach((to, from, next) => {
-  for (const [key, track] of Object.entries(musicTracks)) {
-    if (key == to.meta.music) {
-      track.play()
-      track.loop = true
-      track.volume = 0.2
-    } else {
-      track.volume = 0
-    }
-  }
-  next()
-})
+// router.beforeEach((to, from, next) => {
+//   for (const [key, track] of Object.entries(musicTracks)) {
+//     if (key == to.meta.music) {
+//       track.play()
+//       track.loop = true
+//       track.volume = 0.2
+//     } else {
+//       track.volume = 0
+//     }
+//   }
+//   next()
+// })
 
 export default router

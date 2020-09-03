@@ -1,5 +1,6 @@
 import { randomFighterWeapon, randomGoblinWeapon } from './weapons'
 import { getRandomItem, getRandomInt } from './utils'
+import { generateGoblinName, generateHumanName } from './names'
 import {
   ARMOR_TYPE_LEATHER,
   ARMOR_TYPE_CHAINMAIL,
@@ -32,13 +33,7 @@ export const GOBLIN_RANGED = Symbol()
 
 export function generateGoblin() {
   return {
-    name: getRandomItem([
-      'Goblin Scout',
-      'Goblin Fighter',
-      'Goblin Warrior',
-      'Mutant Goblin',
-      'Small Goblin',
-    ]),
+    name: generateGoblinName(),
     type: getRandomItem([GOBLIN_MELEE, GOBLIN_LEADER, GOBLIN_RANGED]),
     equipment: {
       head: randomGoblinArmor(),
@@ -57,77 +52,8 @@ export function generateGoblin() {
 }
 
 export function generateFighter() {
-  let firstName = getRandomItem([
-    'Liron',
-    'Maia',
-    'Marius',
-    'Mathieu',
-    'Mireille',
-    'Mireya',
-    'Maylea',
-    'Meira',
-    'Natania',
-    'Nerys',
-    'Nuriel',
-    'Nyssa',
-    'Neirin',
-    'Nyfain',
-    'Oisin',
-    'Oralie',
-    'Orion',
-    'Orpheus',
-    'Ozara',
-    'Oleisa',
-    'Orinthea',
-    'Peregrine',
-    'Persephone',
-    'Perseus',
-  ])
-  let lastName = getRandomItem([
-    'Abrielle',
-    'Adair',
-    'Adara',
-    'Adriel',
-    'Aiyana',
-    'Alissa',
-    'Alixandra',
-    'Altair',
-    'Amara',
-    'Anatola',
-    'Anya',
-    'Arcadia',
-    'Ariadne',
-    'Arianwen',
-    'Aurelia',
-    'Aurelian',
-    'Aurelius',
-    'Avalon',
-    'Acalia',
-    'Alaire',
-    'Auristela',
-    'Bastian',
-    'Breena',
-    'Brielle',
-    'Briallan',
-    'Briseis',
-    'Cambria',
-    'Cara',
-    'Carys',
-    'Caspian',
-    'Cassia',
-    'Cassiel',
-    'Cassiopeia',
-    'Cassius',
-    'Chaniel',
-    'Cora',
-    'Corbin',
-    'Cyprian',
-    'Daire',
-    'Darius',
-  ])
-
   return {
-    name: `${firstName} ${lastName}`,
+    name: generateHumanName(),
     type: getRandomItem([
       HUMAN_BRIGAND,
       HUMAN_SHOOTER,

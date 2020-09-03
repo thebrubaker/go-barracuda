@@ -6,11 +6,20 @@ export const NORMAL_ATTACK = 'NORMAL_ATTACK'
 export const STRONG_ATTACK = 'STRONG_ATTACK'
 export const WILD_ATTACK = 'WILD_ATTACK'
 export const QUICK_ATTACK = 'QUICK_ATTACK'
+export const DEFENSIVE_STANCE = 'DEFENSIVE_STANCE'
+export const RECOVER = 'RECOVER'
+export const RALLY = 'RALLY'
 
 export const BLOCK = 'BLOCK'
 export const DODGE = 'DODGE'
 export const PARRY = 'PARRY'
 export const COUNTER = 'COUNTER'
+
+export const STAMINA_FULL = 'STAMINA_FULL'
+export const STAMINA_HIGH = 'STAMINA_HIGH'
+export const STAMINA_HALF = 'STAMINA_HALF'
+export const STAMINA_LOW = 'STAMINA_LOW'
+export const STAMINA_EMPTY = 'STAMINA_EMPTY'
 
 export function defendAttack(attackerMorale, defenderMorale) {
   return rollTheDice(defenderMorale) >= rollTheDice(attackerMorale)

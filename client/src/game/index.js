@@ -20,6 +20,7 @@ import {
   getBodyPartToHit,
 } from './combat'
 import { rollArmorConditionLoss } from './armor'
+import { createUnitGroup, addUnitToGroup } from './unit-group'
 
 export const gameState = createGameState()
 
@@ -69,14 +70,14 @@ function createGameState() {
   // Generate the order of actions
   gameState.initiativeOrder = generateInitiativeOrder(gameState.units)
 
+  const groupKey = createUnitGroup('Goblin Smashers')
+
   // Generate a party
-  gameState.parties[1] = {
-    units: [
-      ...Object.values(gameState.units)
-        .filter(unit => unit.team === 1)
-        .map(unit => unit.key),
-    ],
-  }
+  Object.values(gameState.units)
+    .filter(unit => unit.team === 1)
+    .forEach(unit => {
+      addUnitToGroup(groupKey, unit.key)
+    })
 
   return Vue.observable(gameState)
 }

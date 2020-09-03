@@ -13,43 +13,50 @@ export const SLASH = 'SLASH'
 export const BLUNT = 'BLUNT'
 export const PIERCE = 'PIERCE'
 
+export const WAR_HAMMER = 'WAR_HAMMER'
+export const GREAT_AXE = 'GREAT_AXE'
+export const SPEAR = 'SPEAR'
+export const MACE = 'MACE'
+export const SWORD = 'SWORD'
+export const DAGGER = 'DAGGER'
+
 export const WarHammer = {
-  name: 'War Hammer',
+  type: WAR_HAMMER,
   attackTypes: [NORMAL_ATTACK, STRONG_ATTACK],
   damageTypes: { [SWING]: BLUNT },
   size: 3,
 }
 
 export const GreatAxe = {
-  name: 'Great Axe',
+  type: GREAT_AXE,
   attackTypes: [WILD_ATTACK, STRONG_ATTACK],
   damageTypes: { [SWING]: SLASH },
   size: 3,
 }
 
 export const Spear = {
-  name: 'Spear',
+  type: SPEAR,
   attackTypes: [NORMAL_ATTACK],
   damageTypes: { [THRUST]: PIERCE },
   size: 2,
 }
 
 export const Mace = {
-  name: 'Mace',
+  type: MACE,
   attackTypes: [NORMAL_ATTACK, STRONG_ATTACK],
   damageTypes: { [SWING]: BLUNT },
   size: 2,
 }
 
 export const Sword = {
-  name: 'Sword',
+  type: SWORD,
   attackTypes: [NORMAL_ATTACK, WILD_ATTACK, QUICK_ATTACK, STRONG_ATTACK],
   damageTypes: { [SWING]: SLASH, [THRUST]: PIERCE },
   size: 2,
 }
 
 export const Dagger = {
-  name: 'Dagger',
+  type: DAGGER,
   attackTypes: [NORMAL_ATTACK, QUICK_ATTACK],
   damageTypes: { [SWING]: SLASH, [THRUST]: PIERCE },
   size: 1,

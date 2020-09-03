@@ -1,20 +1,14 @@
 import { getRandomInt } from './utils'
 import { SLASH, PIERCE, BLUNT } from './weapons'
 
-export const ARMOR_TYPE_LEATHER = {
-  name: 'Leather',
-  protection: [SLASH],
-}
-export const ARMOR_TYPE_CHAINMAIL = {
-  name: 'Chainmail',
-  protection: [SLASH, PIERCE],
-}
-export const ARMOR_TYPE_PLATE = {
-  name: 'Plate',
-  protection: [SLASH, PIERCE, BLUNT],
-}
+export const ARMOR_LEATHER = 'ARMOR_LEATHER'
+export const ARMOR_CHAINMAIL = 'ARMOR_CHAINMAIL'
+export const ARMOR_PLATE = 'ARMOR_PLATE'
 
 export const SHIELD = 'SHIELD'
+export const BUCKLER = 'BUCKLER'
+export const KITE = 'KITE'
+export const TOWER = 'TOWER'
 
 export const QUALITY_LOW = 'QUALITY_LOW'
 export const QUALITY_NORMAL = 'QUALITY_NORMAL'
@@ -24,6 +18,19 @@ export const QUALITY_LEGENDARY = 'QUALITY_LEGENDARY'
 export const CONDITION_WORN = 0
 export const CONDITION_FAIR = 1
 export const CONDITION_GOOD = 2
+
+export const ARMOR_TYPE_LEATHER = {
+  name: ARMOR_LEATHER,
+  protection: [SLASH],
+}
+export const ARMOR_TYPE_CHAINMAIL = {
+  name: ARMOR_CHAINMAIL,
+  protection: [SLASH, PIERCE],
+}
+export const ARMOR_TYPE_PLATE = {
+  name: ARMOR_PLATE,
+  protection: [SLASH, PIERCE, BLUNT],
+}
 
 export function rollArmorConditionLoss(armor, helmet = false) {
   if (helmet) {
