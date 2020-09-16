@@ -113,7 +113,7 @@
           :body-style="{ padding: 0 }"
           shadow="none"
           class="h-full"
-          style="height: 360px;"
+          style="height: 420px;"
         >
           <div slot="header" class="clearfix">
             <span>Party Settings</span>
